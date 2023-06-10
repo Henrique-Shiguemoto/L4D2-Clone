@@ -22,7 +22,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        isGrounded = Physics.CheckBox(playerBoxCollider.bounds.center, 0.5f * playerBoxCollider.bounds.size, Quaternion.identity, groundMask);
+        isGrounded = Physics.CheckBox(playerBoxCollider.bounds.center, 
+                                        0.5f * playerBoxCollider.bounds.size, 
+                                        Quaternion.identity, 
+                                        groundMask);
 
         // Checking if the player can jump
         if (isGrounded && velocity.y < 0)
@@ -44,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
         float z = Input.GetAxis("Vertical");
 
         Vector3 move = transform.right * x + transform.forward * z;
-        playerCharacterController.Move(move * playerSpeed * Time.deltaTime);
+        Vector3 normalizedMove = Vector3.Normalize(move);
+        playerCharacterController.Move(normalizedMove * playerSpeed * Time.deltaTime);
     }
 }
