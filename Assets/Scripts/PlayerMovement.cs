@@ -43,8 +43,8 @@ public class PlayerMovement : MonoBehaviour
         playerCharacterController.Move(velocity * Time.deltaTime);
 
         // Movement at the direction we're pointing at
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        float x = Input.GetAxisRaw("Horizontal");
+        float z = Input.GetAxisRaw("Vertical");
 
         Vector3 move = transform.right * x + transform.forward * z;
         Vector3 normalizedMove = Vector3.Normalize(move);
