@@ -10,23 +10,16 @@ public class WeaponBehavior : MonoBehaviour
     [SerializeField] private float dropUpwardForce;
     [SerializeField] private float dropForwardForce;
 
-    [SerializeField] private float fireRate;
-    [SerializeField] private float reloadSpeed;
-    [SerializeField] private bool automatic;
-    [SerializeField] private int maxBulletCount;
-
     private const string IS_FIRING = "IsFiring"; // just to make sure I don't type this incorrectly
 
-    private int currentBulletAmount;
-
     private bool playerIsHoldingWeapon;
+    private bool isReloading;
     private GameObject currentWeapon;
 
     private void Start()
     {
-        currentBulletAmount = maxBulletCount;
-
         playerIsHoldingWeapon = false;
+        isReloading = false;
         currentWeapon = null;
     }
 
@@ -45,8 +38,17 @@ public class WeaponBehavior : MonoBehaviour
 
         if (playerIsHoldingWeapon)
         {
-            GameObject currentWeaponVisual = currentWeapon.transform.GetChild(0).gameObject;
-            currentWeaponVisual.GetComponent<Animator>().SetBool(IS_FIRING, playerIsHoldingWeapon && Input.GetButtonDown("Fire1"));
+            //shoot
+            if (!isReloading)
+            {
+                Shoot();
+            }
+
+            //reload
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Reload();
+            }
         }
     }
 
@@ -96,5 +98,27 @@ public class WeaponBehavior : MonoBehaviour
 
             playerIsHoldingWeapon = false;
         }
+    }
+
+    public void Shoot()
+    {
+        WeaponConfig currentWeaponConfig = currentWeapon.GetComponent<WeaponConfig>();
+        currentWeaponConfig.currentBulletCount--;
+        if (currentWeaponConfig.currentBulletCount <= 0)
+        {
+            currentWeaponConfig.currentBulletCount = 0;
+        }
+        Debug.Log(currentWeaponConfig.currentBulletCount);
+
+        GameObject currentWeaponVisual = currentWeapon.transform.GetChild(0).gameObject;
+        currentWeaponVisual.GetComponent<Animator>().SetBool(IS_FIRING, playerIsHoldingWeapon && Input.GetButtonDown("Fire1"));
+    }
+
+    public void Reload()
+    {
+        isReloading = true;
+        WeaponConfig currentWeaponConfig = currentWeapon.GetComponent<WeaponConfig>();
+        currentWeaponConfig.currentBulletCount = currentWeaponConfig.maxBulletCount;
+        Debug.Log(currentWeaponConfig.currentBulletCount);
     }
 }
