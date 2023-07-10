@@ -364,11 +364,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca4b2ceba2d24e4882afb43f8cef051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentBulletCount: 0
+  currentBulletCount: 10
   maxBulletCount: 10
   isAutomatic: 0
   fireRate: 0.55
-  reloadSpeed: 0.45
+  reloadSpeed: 4
 --- !u!1 &223113320
 GameObject:
   m_ObjectHideFlags: 0
@@ -1204,11 +1204,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca4b2ceba2d24e4882afb43f8cef051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentBulletCount: 0
+  currentBulletCount: 15
   maxBulletCount: 15
-  isAutomatic: 0
+  isAutomatic: 1
   fireRate: 0.32
-  reloadSpeed: 1.1
+  reloadSpeed: 1.85
 --- !u!1 &468873522
 GameObject:
   m_ObjectHideFlags: 0
@@ -2269,7 +2269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca4b2ceba2d24e4882afb43f8cef051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentBulletCount: 0
+  currentBulletCount: 40
   maxBulletCount: 40
   isAutomatic: 1
   fireRate: 0.3
@@ -6049,7 +6049,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca4b2ceba2d24e4882afb43f8cef051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentBulletCount: 0
+  currentBulletCount: 30
   maxBulletCount: 30
   isAutomatic: 0
   fireRate: 0.75

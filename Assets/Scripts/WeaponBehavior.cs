@@ -10,16 +10,24 @@ public class WeaponBehavior : MonoBehaviour
     [SerializeField] private float dropUpwardForce;
     [SerializeField] private float dropForwardForce;
 
-    private const string IS_FIRING = "IsFiring"; // just to make sure I don't type this incorrectly
+    private const string IS_FIRING = "IsFiring";
+    private const string IS_RELOADING = "IsReloading";
 
     private bool playerIsHoldingWeapon;
     private bool isReloading;
+    private bool isShooting;
     private GameObject currentWeapon;
+
+    private float currentTimeLeftToShootAgain;
+    private float timeToShootAgain;
+    private float currentTimeLeftToReloadAgain;
+    private float timeToReloadAgain;
 
     private void Start()
     {
         playerIsHoldingWeapon = false;
         isReloading = false;
+        isShooting = false;
         currentWeapon = null;
     }
 
@@ -38,27 +46,71 @@ public class WeaponBehavior : MonoBehaviour
 
         if (playerIsHoldingWeapon)
         {
-            //shoot
-            if (!isReloading)
-            {
-                Shoot();
+            WeaponConfig currentWeaponConfig = currentWeapon.GetComponent<WeaponConfig>();
+
+            //shoot (idk how to refactor this)
+            if(currentWeaponConfig.isAutomatic){
+                if (Input.GetButton("Fire1") && !isReloading && !isShooting && currentWeaponConfig.currentBulletCount > 0){
+                    isShooting = true;
+                    currentWeaponConfig.currentBulletCount--;
+                    if (currentWeaponConfig.currentBulletCount <= 0){
+                        currentWeaponConfig.currentBulletCount = 0;
+                    }
+                    Debug.Log(currentWeaponConfig.currentBulletCount);
+                }
+            }else{
+                if (Input.GetButtonDown("Fire1") && !isReloading && !isShooting && currentWeaponConfig.currentBulletCount > 0){
+                    isShooting = true;
+                    currentWeaponConfig.currentBulletCount--;
+                    if (currentWeaponConfig.currentBulletCount <= 0){
+                        currentWeaponConfig.currentBulletCount = 0;
+                    }
+                    Debug.Log(currentWeaponConfig.currentBulletCount);
+                }
             }
 
             //reload
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.R) && currentWeaponConfig.currentBulletCount < currentWeaponConfig.maxBulletCount && !isShooting && !isReloading)
             {
-                Reload();
+                isReloading = true;
+                currentWeaponConfig.currentBulletCount = currentWeaponConfig.maxBulletCount;
+                Debug.Log(currentWeaponConfig.currentBulletCount);
             }
+        }
+
+        if(isShooting && currentTimeLeftToShootAgain > 0){
+            currentTimeLeftToShootAgain -= Time.deltaTime;
+            if(currentTimeLeftToShootAgain <= 0){
+                isShooting = false;
+                currentTimeLeftToShootAgain = timeToShootAgain;
+            }
+        }
+
+        if(isReloading && currentTimeLeftToReloadAgain > 0){
+            currentTimeLeftToReloadAgain -= Time.deltaTime;
+            if(currentTimeLeftToReloadAgain <= 0){
+                isReloading = false;
+                currentTimeLeftToReloadAgain = timeToReloadAgain;
+            }
+        }
+
+        if(playerIsHoldingWeapon){
+            Animator weaponAnimator = currentWeapon.transform.GetChild(0).gameObject.GetComponent<Animator>();
+            
+            //isShooting and isReloading are exclusively true/false (they cannot be equal)
+            // players cannot shoot while reloading and they cannot reload while shooting
+            weaponAnimator.SetBool(IS_FIRING, isShooting);
+            weaponAnimator.SetBool(IS_RELOADING, isReloading);
         }
     }
 
     void PickupWeapon(GameObject newWeapon)
     {
-        Debug.Log("Picked up " + newWeapon.name);
+        //Debug.Log("Picked up " + newWeapon.name);
         if (playerIsHoldingWeapon)
         {
             DropWeapon(currentWeapon);
-        }
+        } 
 
         //GetChild(0) returns the weapon child with the visuals
         GameObject newWeaponVisual = newWeapon.transform.GetChild(0).gameObject;
@@ -74,11 +126,16 @@ public class WeaponBehavior : MonoBehaviour
         newWeapon.transform.localScale = Vector3.one;
 
         currentWeapon = newWeapon;
+        WeaponConfig currentWeaponConfig = currentWeapon.GetComponent<WeaponConfig>();
+        currentTimeLeftToShootAgain = currentWeaponConfig.fireRate;
+        timeToShootAgain = currentWeaponConfig.fireRate;
+        currentTimeLeftToReloadAgain = currentWeaponConfig.reloadSpeed;
+        timeToReloadAgain = currentWeaponConfig.reloadSpeed;
     }
 
     void DropWeapon(GameObject weaponToDrop)
     {
-        Debug.Log("Dropped " + weaponToDrop.name);
+        //Debug.Log("Dropped " + weaponToDrop.name);
         if (weaponToDrop == null)
         {
             return;
@@ -98,27 +155,5 @@ public class WeaponBehavior : MonoBehaviour
 
             playerIsHoldingWeapon = false;
         }
-    }
-
-    public void Shoot()
-    {
-        WeaponConfig currentWeaponConfig = currentWeapon.GetComponent<WeaponConfig>();
-        currentWeaponConfig.currentBulletCount--;
-        if (currentWeaponConfig.currentBulletCount <= 0)
-        {
-            currentWeaponConfig.currentBulletCount = 0;
-        }
-        Debug.Log(currentWeaponConfig.currentBulletCount);
-
-        GameObject currentWeaponVisual = currentWeapon.transform.GetChild(0).gameObject;
-        currentWeaponVisual.GetComponent<Animator>().SetBool(IS_FIRING, playerIsHoldingWeapon && Input.GetButtonDown("Fire1"));
-    }
-
-    public void Reload()
-    {
-        isReloading = true;
-        WeaponConfig currentWeaponConfig = currentWeapon.GetComponent<WeaponConfig>();
-        currentWeaponConfig.currentBulletCount = currentWeaponConfig.maxBulletCount;
-        Debug.Log(currentWeaponConfig.currentBulletCount);
     }
 }
