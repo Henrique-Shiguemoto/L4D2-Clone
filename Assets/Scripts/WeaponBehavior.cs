@@ -9,6 +9,9 @@ public class WeaponBehavior : MonoBehaviour
     [SerializeField] private float pickupRange;
     [SerializeField] private float dropUpwardForce;
     [SerializeField] private float dropForwardForce;
+    
+    private AudioSource reloadAudio;
+    private AudioSource fireAudio;
 
     private const string IS_FIRING = "IsFiring";
     private const string IS_RELOADING = "IsReloading";
@@ -57,6 +60,7 @@ public class WeaponBehavior : MonoBehaviour
                         currentWeaponConfig.currentBulletCount = 0;
                     }
                     Debug.Log(currentWeaponConfig.currentBulletCount);
+                    fireAudio.Play();
                 }
             }else{
                 if (Input.GetButtonDown("Fire1") && !isReloading && !isShooting && currentWeaponConfig.currentBulletCount > 0){
@@ -66,6 +70,7 @@ public class WeaponBehavior : MonoBehaviour
                         currentWeaponConfig.currentBulletCount = 0;
                     }
                     Debug.Log(currentWeaponConfig.currentBulletCount);
+                    fireAudio.Play();
                 }
             }
 
@@ -75,6 +80,7 @@ public class WeaponBehavior : MonoBehaviour
                 isReloading = true;
                 currentWeaponConfig.currentBulletCount = currentWeaponConfig.maxBulletCount;
                 Debug.Log(currentWeaponConfig.currentBulletCount);
+                reloadAudio.Play();
             }
         }
 
@@ -126,6 +132,11 @@ public class WeaponBehavior : MonoBehaviour
         newWeapon.transform.localScale = Vector3.one;
 
         currentWeapon = newWeapon;
+        
+        AudioSource[] audios = currentWeapon.GetComponents<AudioSource>();
+        fireAudio = audios[0];
+        reloadAudio = audios[1];
+        
         WeaponConfig currentWeaponConfig = currentWeapon.GetComponent<WeaponConfig>();
         currentTimeLeftToShootAgain = currentWeaponConfig.fireRate;
         timeToShootAgain = currentWeaponConfig.fireRate;
