@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class WeaponBehavior : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class WeaponBehavior : MonoBehaviour
     [SerializeField] private float pickupRange;
     [SerializeField] private float dropUpwardForce;
     [SerializeField] private float dropForwardForce;
+
+    [SerializeField] private TextMeshProUGUI ammoText;
     
     private AudioSource reloadAudio;
     private AudioSource fireAudio;
@@ -19,6 +22,7 @@ public class WeaponBehavior : MonoBehaviour
     private bool playerIsHoldingWeapon;
     private bool isReloading;
     private bool isShooting;
+    private bool muzzleflashIsLit;
     private GameObject currentWeapon;
 
     private float currentTimeLeftToShootAgain;
@@ -32,10 +36,12 @@ public class WeaponBehavior : MonoBehaviour
         isReloading = false;
         isShooting = false;
         currentWeapon = null;
+        muzzleflashIsLit = false;
     }
 
     void Update()
     {
+        //weapon pickup
         Ray ray = cameraObject.ScreenPointToRay(Input.mousePosition);
         bool cameraRaycastIsHittingSomething = Physics.Raycast(ray, out RaycastHit hit);
 
@@ -47,6 +53,7 @@ public class WeaponBehavior : MonoBehaviour
             PickupWeapon(hit.transform.gameObject);
         }
 
+        //shooting and reloading logic (no visuals)
         if (playerIsHoldingWeapon)
         {
             WeaponConfig currentWeaponConfig = currentWeapon.GetComponent<WeaponConfig>();
@@ -59,7 +66,9 @@ public class WeaponBehavior : MonoBehaviour
                     if (currentWeaponConfig.currentBulletCount <= 0){
                         currentWeaponConfig.currentBulletCount = 0;
                     }
-                    Debug.Log(currentWeaponConfig.currentBulletCount);
+                    muzzleflashIsLit = true;
+                    GameObject weaponMuzzleFlash = currentWeapon.transform.GetChild(0).Find("MuzzleflashPlane").gameObject;
+                    weaponMuzzleFlash.SetActive(true);
                     fireAudio.Play();
                 }
             }else{
@@ -69,7 +78,9 @@ public class WeaponBehavior : MonoBehaviour
                     if (currentWeaponConfig.currentBulletCount <= 0){
                         currentWeaponConfig.currentBulletCount = 0;
                     }
-                    Debug.Log(currentWeaponConfig.currentBulletCount);
+                    muzzleflashIsLit = true;
+                    GameObject weaponMuzzleFlash = currentWeapon.transform.GetChild(0).Find("MuzzleflashPlane").gameObject;
+                    weaponMuzzleFlash.SetActive(true);
                     fireAudio.Play();
                 }
             }
@@ -79,19 +90,28 @@ public class WeaponBehavior : MonoBehaviour
             {
                 isReloading = true;
                 currentWeaponConfig.currentBulletCount = currentWeaponConfig.maxBulletCount;
-                Debug.Log(currentWeaponConfig.currentBulletCount);
                 reloadAudio.Play();
             }
+
+            //ammo text update
+            ammoText.text = currentWeaponConfig.currentBulletCount + "/" + currentWeaponConfig.maxBulletCount;
         }
 
+        //shooting cooldown
         if(isShooting && currentTimeLeftToShootAgain > 0){
             currentTimeLeftToShootAgain -= Time.deltaTime;
             if(currentTimeLeftToShootAgain <= 0){
                 isShooting = false;
                 currentTimeLeftToShootAgain = timeToShootAgain;
             }
+            if(muzzleflashIsLit && currentTimeLeftToShootAgain <= timeToShootAgain * 0.75){
+                muzzleflashIsLit = false;
+                GameObject weaponMuzzleFlash = currentWeapon.transform.GetChild(0).Find("MuzzleflashPlane").gameObject;
+                weaponMuzzleFlash.SetActive(false);
+            }
         }
 
+        //reloading cooldown
         if(isReloading && currentTimeLeftToReloadAgain > 0){
             currentTimeLeftToReloadAgain -= Time.deltaTime;
             if(currentTimeLeftToReloadAgain <= 0){
@@ -100,6 +120,7 @@ public class WeaponBehavior : MonoBehaviour
             }
         }
 
+        //animations
         if(playerIsHoldingWeapon){
             Animator weaponAnimator = currentWeapon.transform.GetChild(0).gameObject.GetComponent<Animator>();
             
@@ -112,7 +133,7 @@ public class WeaponBehavior : MonoBehaviour
 
     void PickupWeapon(GameObject newWeapon)
     {
-        //Debug.Log("Picked up " + newWeapon.name);
+        Debug.Log("Picked up " + newWeapon.name);
         if (playerIsHoldingWeapon)
         {
             DropWeapon(currentWeapon);
@@ -146,7 +167,7 @@ public class WeaponBehavior : MonoBehaviour
 
     void DropWeapon(GameObject weaponToDrop)
     {
-        //Debug.Log("Dropped " + weaponToDrop.name);
+        Debug.Log("Dropped " + weaponToDrop.name);
         if (weaponToDrop == null)
         {
             return;

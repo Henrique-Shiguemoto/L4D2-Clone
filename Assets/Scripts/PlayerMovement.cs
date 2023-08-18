@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundMask;
 
     [SerializeField] private CharacterController playerCharacterController;
-    [SerializeField] private BoxCollider playerBoxCollider;
+    [SerializeField] private BoxCollider groundCheckCollider;
 
     //This is only used for Y velocity...
     Vector3 velocity;
@@ -22,8 +22,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        isGrounded = Physics.CheckBox(playerBoxCollider.bounds.center, 
-                                        0.5f * playerBoxCollider.bounds.size, 
+        isGrounded = Physics.CheckBox(groundCheckCollider.bounds.center, 
+                                        0.5f * groundCheckCollider.bounds.size, 
                                         Quaternion.identity, 
                                         groundMask);
 
@@ -33,7 +33,6 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = 0f;
             if (Input.GetButtonDown("Jump"))
             {
-                // Jump!
                 velocity.y += jumpForce;
             }
         }
