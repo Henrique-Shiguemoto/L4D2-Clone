@@ -29,7 +29,6 @@ To get started with the game, follow the instructions below:
 The Left 4 Dead 2 clone game features the following gameplay elements:
 
 - Zombie survival: Fight off hordes of infected creatures.
-- Diverse characters: Choose from a variety of unique characters, each with their own abilities.
 - Weapon arsenal: Use a wide range of weapons to defeat the zombies.
 
 ## Acknowledgements
