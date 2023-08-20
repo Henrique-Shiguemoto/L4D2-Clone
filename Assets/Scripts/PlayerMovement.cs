@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce;
 
     [SerializeField] private Transform groundCheck;
-    [SerializeField] private float groundCheckRadius;
     [SerializeField] private LayerMask groundMask;
 
     [SerializeField] private CharacterController playerCharacterController;
@@ -27,18 +26,15 @@ public class PlayerMovement : MonoBehaviour
                                         Quaternion.identity, 
                                         groundMask);
 
+        // Calculating and Applying gravity
+        velocity.y += gravity * Time.deltaTime;
+
         // Checking if the player can jump
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = 0f;
-            if (Input.GetButtonDown("Jump"))
-            {
-                velocity.y += jumpForce;
-            }
+            if (Input.GetButtonDown("Jump")) velocity.y += jumpForce;
         }
-
-        // Calculating and Applying gravity
-        velocity.y += gravity * Time.deltaTime;
         playerCharacterController.Move(velocity * Time.deltaTime);
 
         // Movement at the direction we're pointing at
