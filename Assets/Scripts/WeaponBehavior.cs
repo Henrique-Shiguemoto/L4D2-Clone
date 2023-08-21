@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class WeaponBehavior : MonoBehaviour
-{
+public class WeaponBehavior : MonoBehaviour{
     [SerializeField] private Camera cameraObject;
     [SerializeField] private Transform weaponHolderTransform;
     [SerializeField] private float pickupRange;
@@ -30,8 +29,7 @@ public class WeaponBehavior : MonoBehaviour
     private float currentTimeLeftToReloadAgain;
     private float timeToReloadAgain;
 
-    private void Start()
-    {
+    private void Start(){
         playerIsHoldingWeapon = false;
         isReloading = false;
         isShooting = false;
@@ -39,23 +37,17 @@ public class WeaponBehavior : MonoBehaviour
         muzzleflashIsLit = false;
     }
 
-    void Update()
-    {
+    void Update(){
         //weapon pickup
         Ray ray = cameraObject.ScreenPointToRay(Input.mousePosition);
         bool cameraRaycastIsHittingSomething = Physics.Raycast(ray, out RaycastHit hit);
 
-        if (cameraRaycastIsHittingSomething && 
-            hit.transform.gameObject.tag.Equals("Weapon") &&
-            Input.GetKeyDown(KeyCode.E) &&
-            hit.distance <= pickupRange)
-        {
+        if (cameraRaycastIsHittingSomething && hit.transform.gameObject.tag.Equals("Weapon") && Input.GetKeyDown(KeyCode.E) && hit.distance <= pickupRange){
             PickupWeapon(hit.transform.gameObject);
         }
 
         //shooting and reloading logic (no visuals)
-        if (playerIsHoldingWeapon)
-        {
+        if (playerIsHoldingWeapon){
             WeaponConfig currentWeaponConfig = currentWeapon.GetComponent<WeaponConfig>();
 
             //shoot (idk how to refactor this)
@@ -63,9 +55,7 @@ public class WeaponBehavior : MonoBehaviour
                 if (Input.GetButton("Fire1") && !isReloading && !isShooting && currentWeaponConfig.currentBulletCount > 0){
                     isShooting = true;
                     currentWeaponConfig.currentBulletCount--;
-                    if (currentWeaponConfig.currentBulletCount <= 0){
-                        currentWeaponConfig.currentBulletCount = 0;
-                    }
+                    if (currentWeaponConfig.currentBulletCount <= 0) currentWeaponConfig.currentBulletCount = 0;
                     muzzleflashIsLit = true;
                     GameObject weaponMuzzleFlash = currentWeapon.transform.GetChild(0).Find("MuzzleflashPlane").gameObject;
                     weaponMuzzleFlash.SetActive(true);
@@ -75,9 +65,7 @@ public class WeaponBehavior : MonoBehaviour
                 if (Input.GetButtonDown("Fire1") && !isReloading && !isShooting && currentWeaponConfig.currentBulletCount > 0){
                     isShooting = true;
                     currentWeaponConfig.currentBulletCount--;
-                    if (currentWeaponConfig.currentBulletCount <= 0){
-                        currentWeaponConfig.currentBulletCount = 0;
-                    }
+                    if (currentWeaponConfig.currentBulletCount <= 0) currentWeaponConfig.currentBulletCount = 0;
                     muzzleflashIsLit = true;
                     GameObject weaponMuzzleFlash = currentWeapon.transform.GetChild(0).Find("MuzzleflashPlane").gameObject;
                     weaponMuzzleFlash.SetActive(true);
@@ -86,8 +74,7 @@ public class WeaponBehavior : MonoBehaviour
             }
 
             //reload
-            if (Input.GetKeyDown(KeyCode.R) && currentWeaponConfig.currentBulletCount < currentWeaponConfig.maxBulletCount && !isShooting && !isReloading)
-            {
+            if (Input.GetKeyDown(KeyCode.R) && currentWeaponConfig.currentBulletCount < currentWeaponConfig.maxBulletCount && !isShooting && !isReloading){
                 isReloading = true;
                 currentWeaponConfig.currentBulletCount = currentWeaponConfig.maxBulletCount;
                 reloadAudio.Play();
@@ -131,13 +118,9 @@ public class WeaponBehavior : MonoBehaviour
         }
     }
 
-    void PickupWeapon(GameObject newWeapon)
-    {
+    void PickupWeapon(GameObject newWeapon){
         Debug.Log("Picked up " + newWeapon.name);
-        if (playerIsHoldingWeapon)
-        {
-            DropWeapon(currentWeapon);
-        } 
+        if (playerIsHoldingWeapon) DropWeapon(currentWeapon); 
 
         //GetChild(0) returns the weapon child with the visuals
         GameObject newWeaponVisual = newWeapon.transform.GetChild(0).gameObject;
@@ -165,15 +148,10 @@ public class WeaponBehavior : MonoBehaviour
         timeToReloadAgain = currentWeaponConfig.reloadSpeed;
     }
 
-    void DropWeapon(GameObject weaponToDrop)
-    {
+    void DropWeapon(GameObject weaponToDrop){
         Debug.Log("Dropped " + weaponToDrop.name);
-        if (weaponToDrop == null)
-        {
-            return;
-        }
-        if (playerIsHoldingWeapon)
-        {
+        if (weaponToDrop == null) return;
+        if (playerIsHoldingWeapon){
             weaponToDrop.transform.SetParent(null);
             GameObject newWeaponVisual = weaponToDrop.transform.GetChild(0).gameObject;
             newWeaponVisual.GetComponent<Animator>().enabled = false;

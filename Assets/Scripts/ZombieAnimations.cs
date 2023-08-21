@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieAnimations : MonoBehaviour
-{    
+public class ZombieAnimations : MonoBehaviour{    
     [SerializeField] Animator zombieAnimator;
     [SerializeField] ZombieMovement zombieMovementScript;
 
@@ -12,11 +11,9 @@ public class ZombieAnimations : MonoBehaviour
     private const string IS_ATTACKING = "IsAttacking";
     private const string IS_DYING = "IsDying";
 
-    void Update()
-    {
+    void Update(){
         zombieAnimator.SetBool(IS_RUNNING, zombieMovementScript.IsZombieRunning());
-        // zombieAnimator.SetBool(IS_WALKING, );
-        // zombieAnimator.SetBool(IS_ATTACKING, );
-        // zombieAnimator.SetBool(IS_DYING, );
+        zombieAnimator.SetBool(IS_WALKING, zombieMovementScript.IsZombieWalking());
+        zombieAnimator.SetBool(IS_ATTACKING, zombieMovementScript.IsZombieAttacking());
     }
 }

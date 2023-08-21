@@ -2,25 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
-{
+public class PlayerMovement : MonoBehaviour{
     [SerializeField] private float playerSpeed;
     [SerializeField] private float gravity;
     [SerializeField] private float jumpForce;
 
-    [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundMask;
+    [SerializeField] private BoxCollider groundCheckCollider;
 
     [SerializeField] private CharacterController playerCharacterController;
-    [SerializeField] private BoxCollider groundCheckCollider;
 
     //This is only used for Y velocity...
     Vector3 velocity;
     
     private bool isGrounded;
 
-    void Update()
-    {
+    void Update(){
         isGrounded = Physics.CheckBox(groundCheckCollider.bounds.center, 
                                         0.5f * groundCheckCollider.bounds.size, 
                                         Quaternion.identity, 
@@ -30,8 +27,7 @@ public class PlayerMovement : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         // Checking if the player can jump
-        if (isGrounded && velocity.y < 0)
-        {
+        if (isGrounded && velocity.y < 0){
             velocity.y = 0f;
             if (Input.GetButtonDown("Jump")) velocity.y += jumpForce;
         }
