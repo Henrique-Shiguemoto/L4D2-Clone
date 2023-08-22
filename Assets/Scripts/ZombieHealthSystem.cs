@@ -2,27 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieHealthSystem : MonoBehaviour{
+public class ZombieHealthSystem : MonoBehaviour {
     public int maxHealth;
-    public int zombieDamage;
-    
     [HideInInspector] public int currentHealth;
+    public int zombieDamage;
+    private PlayerHealthSystem playerHealthSystem;
+
+    [SerializeField] private Animator zombieAnimator;
+    
+    private const string IS_ATTACKING = "IsAttacking";
 
     void Start(){
         currentHealth = maxHealth;
+        playerHealthSystem = GameObject.Find("MainPlayer").GetComponent<PlayerHealthSystem>();
     }
 
     void Update(){
-
+        
     }
 
-    void Damage(int amount){
+    public void DealDamageToPlayer(){
+        playerHealthSystem.Damage(zombieDamage);
+    }
+
+    public void Damage(int amount){
         currentHealth -= amount;
         if(currentHealth < 0) currentHealth = 0;
-    }
-
-    void Heal(int amount){
-        currentHealth += amount;
-        if(currentHealth > maxHealth) currentHealth = maxHealth;
     }
 }

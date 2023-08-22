@@ -51,32 +51,24 @@ public class WeaponBehavior : MonoBehaviour{
             WeaponConfig currentWeaponConfig = currentWeapon.GetComponent<WeaponConfig>();
 
             //shoot (idk how to refactor this)
-            if(currentWeaponConfig.isAutomatic){
-                if (Input.GetButton("Fire1") && !isReloading && !isShooting && currentWeaponConfig.currentBulletCount > 0){
-                    isShooting = true;
-                    currentWeaponConfig.currentBulletCount--;
-                    if (currentWeaponConfig.currentBulletCount <= 0) currentWeaponConfig.currentBulletCount = 0;
-                    muzzleflashIsLit = true;
-                    GameObject weaponMuzzleFlash = currentWeapon.transform.GetChild(0).Find("MuzzleflashPlane").gameObject;
-                    weaponMuzzleFlash.SetActive(true);
-                    fireAudio.Play();
-                }
-            }else{
-                if (Input.GetButtonDown("Fire1") && !isReloading && !isShooting && currentWeaponConfig.currentBulletCount > 0){
-                    isShooting = true;
-                    currentWeaponConfig.currentBulletCount--;
-                    if (currentWeaponConfig.currentBulletCount <= 0) currentWeaponConfig.currentBulletCount = 0;
-                    muzzleflashIsLit = true;
-                    GameObject weaponMuzzleFlash = currentWeapon.transform.GetChild(0).Find("MuzzleflashPlane").gameObject;
-                    weaponMuzzleFlash.SetActive(true);
-                    fireAudio.Play();
-                }
+            if ((currentWeaponConfig.isAutomatic ? Input.GetButton("Fire1") : Input.GetButtonDown("Fire1")) && 
+                !isReloading && !isShooting && currentWeaponConfig.currentBulletCount > 0){
+                isShooting = true;
+                currentWeaponConfig.currentBulletCount--;
+                if (currentWeaponConfig.currentBulletCount <= 0) currentWeaponConfig.currentBulletCount = 0;
+                muzzleflashIsLit = true;
+                GameObject weaponMuzzleFlash = currentWeapon.transform.GetChild(0).Find("MuzzleflashPlane").gameObject;
+                weaponMuzzleFlash.SetActive(true);
+                fireAudio.Play();
+
+                //check zombie hits
+
             }
 
             //reload
-            if (Input.GetKeyDown(KeyCode.R) && currentWeaponConfig.currentBulletCount < currentWeaponConfig.maxBulletCount && !isShooting && !isReloading){
+            if ((Input.GetKeyDown(KeyCode.R) && currentWeaponConfig.currentBulletCount < currentWeaponConfig.maxBulletCount && !isShooting && !isReloading) || 
+                (currentWeaponConfig.currentBulletCount == 0 && !isReloading)){
                 isReloading = true;
-                currentWeaponConfig.currentBulletCount = currentWeaponConfig.maxBulletCount;
                 reloadAudio.Play();
             }
 
