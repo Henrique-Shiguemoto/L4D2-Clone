@@ -5,14 +5,15 @@ using UnityEngine;
 public class ZombieHealthSystem : MonoBehaviour{
     public int maxHealth;
     public int zombieDamage;
+    
     [HideInInspector] public int currentHealth;
 
     void Start(){
-        
+        currentHealth = maxHealth;
     }
 
     void Update(){
-    
+
     }
 
     void Damage(int amount){
