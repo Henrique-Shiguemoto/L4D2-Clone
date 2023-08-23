@@ -62,7 +62,12 @@ public class WeaponBehavior : MonoBehaviour{
                 fireAudio.Play();
 
                 //check zombie hits
-
+                if(hit.transform != null){
+                    if(hit.transform.gameObject.tag.Equals("Zombie")){
+                        ZombieHealthSystem zhs = hit.transform.gameObject.GetComponent<ZombieHealthSystem>();
+                        zhs.Damage(currentWeaponConfig.damage);
+                    }
+                }
             }
 
             //reload
@@ -111,7 +116,7 @@ public class WeaponBehavior : MonoBehaviour{
     }
 
     void PickupWeapon(GameObject newWeapon){
-        Debug.Log("Picked up " + newWeapon.name);
+        // Debug.Log("Picked up " + newWeapon.name);
         if (playerIsHoldingWeapon) DropWeapon(currentWeapon); 
 
         //GetChild(0) returns the weapon child with the visuals
@@ -141,7 +146,7 @@ public class WeaponBehavior : MonoBehaviour{
     }
 
     void DropWeapon(GameObject weaponToDrop){
-        Debug.Log("Dropped " + weaponToDrop.name);
+        // Debug.Log("Dropped " + weaponToDrop.name);
         if (weaponToDrop == null) return;
         if (playerIsHoldingWeapon){
             weaponToDrop.transform.SetParent(null);

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PistolAnimations : MonoBehaviour {
-    
     [SerializeField] private WeaponConfig pistolConfig;
 
     void Update(){

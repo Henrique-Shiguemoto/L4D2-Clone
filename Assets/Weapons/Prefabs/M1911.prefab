@@ -207,6 +207,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4952727429218122}
   - component: {fileID: 9130276806104553511}
+  - component: {fileID: 1389356044366330345}
   m_Layer: 0
   m_Name: M1911
   m_TagString: Untagged
@@ -253,6 +254,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1389356044366330345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694449805434718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8607a56d6db09f149948c47f9460568d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pistolConfig: {fileID: 0}
 --- !u!1 &1748277932983872
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,7 +538,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6380976617400080929
 Transform:
   m_ObjectHideFlags: 0

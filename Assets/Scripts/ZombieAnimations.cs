@@ -17,6 +17,9 @@ public class ZombieAnimations : MonoBehaviour{
         zombieAnimator.SetBool(IS_RUNNING, zombieMovementScript.IsZombieRunning());
         zombieAnimator.SetBool(IS_WALKING, zombieMovementScript.IsZombieWalking());
         zombieAnimator.SetBool(IS_ATTACKING, zombieMovementScript.IsZombieAttacking());
+        if(zombieHealthSystem.IsZombieDying() && !zombieHealthSystem.IsZombieAlreadyDead()){
+            zombieAnimator.SetTrigger(IS_DYING);
+        }
     }
 
     void TriggerDamageToPlayerAnimationEvent(){

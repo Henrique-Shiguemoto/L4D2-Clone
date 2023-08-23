@@ -9,8 +9,10 @@ public class ZombieHealthSystem : MonoBehaviour {
     private PlayerHealthSystem playerHealthSystem;
 
     [SerializeField] private Animator zombieAnimator;
-    
     private const string IS_ATTACKING = "IsAttacking";
+
+    private bool isDying = false;
+    private bool isAlreadyDead = false;
 
     void Start(){
         currentHealth = maxHealth;
@@ -18,7 +20,7 @@ public class ZombieHealthSystem : MonoBehaviour {
     }
 
     void Update(){
-        
+        if(isDying) isAlreadyDead = true;
     }
 
     public void DealDamageToPlayer(){
@@ -27,6 +29,17 @@ public class ZombieHealthSystem : MonoBehaviour {
 
     public void Damage(int amount){
         currentHealth -= amount;
-        if(currentHealth < 0) currentHealth = 0;
+        if(currentHealth <= 0){
+            currentHealth = 0;
+            isDying = true;
+        }
+    }
+
+    public bool IsZombieDying(){
+        return isDying;
+    }
+
+    public bool IsZombieAlreadyDead(){
+        return isAlreadyDead;
     }
 }

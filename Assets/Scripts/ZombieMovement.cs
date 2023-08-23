@@ -17,12 +17,12 @@ public class ZombieMovement : MonoBehaviour {
     [SerializeField] private CharacterController zombieCharacterController;
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private BoxCollider groundCheckCollider;
+    [SerializeField] private ZombieHealthSystem zombieHealthSystem;
 
     private bool isIdling = true;
     private bool isRunning = false;
     private bool isWalking = false;
     private bool isAttacking = false;
-    private bool isDying = false;
     
     private bool isGrounded;
     private float distanceFromPlayer;
@@ -43,7 +43,21 @@ public class ZombieMovement : MonoBehaviour {
         transform.Rotate(0, Random.Range(0, 359), 0);
     }
 
-    void Update(){        
+    void Update(){
+        // no movement is performed when dying (just playing the animation)
+        if(zombieHealthSystem.IsZombieDying()){
+            movementSpeed = 0.0f;
+
+            // idk if I need to do this, but I'll do it just in case
+            // just to make sure no other animation starts playing, idk lol
+            isIdling = false;
+            isRunning = false;
+            isWalking = false;
+            isAttacking = false;
+
+            return;
+        }
+
         zombieVisualTransform.localPosition = new Vector3(0.0f, zombieVisualTransform.localPosition.y, 0.0f);
         Vector3 zombiePlayerDirection = Vector3.Normalize(playerTransform.position - zombieTransform.position);
         distanceFromPlayer = Vector3.Distance(playerTransform.position, zombieTransform.position);
@@ -100,7 +114,6 @@ public class ZombieMovement : MonoBehaviour {
                     isRunning = true;
                 }
                 zombieTransform.LookAt(playerTransform);
-                // zombieTransform.rotation = Quaternion.Lerp(zombieTransform.rotation, Quaternion.LookRotation(zombiePlayerDirection), rotationSpeed * Time.deltaTime);
             }
         }
 
@@ -121,10 +134,6 @@ public class ZombieMovement : MonoBehaviour {
 
     public bool IsZombieWalking(){
         return isWalking;
-    }
-
-    public bool IsZombieDying(){
-        return isDying;
     }
 
     public bool IsZombieAttacking(){
