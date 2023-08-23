@@ -110,8 +110,8 @@ public class WeaponBehavior : MonoBehaviour{
             
             //isShooting and isReloading are exclusively true/false (they cannot be equal)
             // players cannot shoot while reloading and they cannot reload while shooting
-            weaponAnimator.SetBool(IS_FIRING, isShooting);
             weaponAnimator.SetBool(IS_RELOADING, isReloading);
+            weaponAnimator.SetBool(IS_FIRING, isShooting);
         }
     }
 
