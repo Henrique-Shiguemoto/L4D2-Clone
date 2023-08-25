@@ -9,4 +9,8 @@ public class WeaponConfig : MonoBehaviour {
     public bool isAutomatic;
     public float fireRate;
     public float reloadSpeed;
+
+    void Start(){
+         currentBulletCount = maxBulletCount;
+    }
 }

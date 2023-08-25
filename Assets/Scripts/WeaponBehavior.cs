@@ -5,10 +5,15 @@ using TMPro;
 
 public class WeaponBehavior : MonoBehaviour{
     [SerializeField] private Camera cameraObject;
+    [SerializeField] private GameObject weaponCameraObject;
     [SerializeField] private Transform weaponHolderTransform;
     [SerializeField] private float pickupRange;
     [SerializeField] private float dropUpwardForce;
     [SerializeField] private float dropForwardForce;
+    [SerializeField] private float bloodSplatterTime = 1.0f;
+    [SerializeField] private float sniperScopeZoom = 15f;
+    [SerializeField] private GameObject bloodSplatterParticleSystem;
+    [SerializeField] private GameObject scopeOverlay;
 
     [SerializeField] private TextMeshProUGUI ammoText;
     
@@ -22,18 +27,21 @@ public class WeaponBehavior : MonoBehaviour{
     private bool isReloading;
     private bool isShooting;
     private bool muzzleflashIsLit;
+    private bool isScoped;
     private GameObject currentWeapon;
 
     private float currentTimeLeftToShootAgain;
     private float timeToShootAgain;
     private float currentTimeLeftToReloadAgain;
     private float timeToReloadAgain;
+    private float originalFOV;
 
     private void Start(){
         playerIsHoldingWeapon = false;
         isReloading = false;
         isShooting = false;
         currentWeapon = null;
+        isScoped = false;
         muzzleflashIsLit = false;
     }
 
@@ -66,7 +74,20 @@ public class WeaponBehavior : MonoBehaviour{
                     if(hit.transform.gameObject.tag.Equals("Zombie")){
                         ZombieHealthSystem zhs = hit.transform.gameObject.GetComponent<ZombieHealthSystem>();
                         zhs.Damage(currentWeaponConfig.damage);
+
+                        GameObject bloodSplatter = Instantiate(bloodSplatterParticleSystem, hit.point, Quaternion.LookRotation(hit.normal));
+                        Destroy(bloodSplatter, bloodSplatterTime);
                     }
+                }
+            }
+
+            if(Input.GetButtonDown("Fire2") && !isReloading && !isShooting && currentWeapon.name.Equals("Sniper")){
+                isScoped = !isScoped;
+
+                if(isScoped){
+                    StartCoroutine(OnScoped());
+                }else{
+                    OnUnscoped();
                 }
             }
 
@@ -162,5 +183,25 @@ public class WeaponBehavior : MonoBehaviour{
 
             playerIsHoldingWeapon = false;
         }
+    }
+
+    public bool IsSniperScoped(){
+        return isScoped;
+    }
+
+    IEnumerator OnScoped(){
+        yield return new WaitForSeconds(0.15f);
+        scopeOverlay.SetActive(true);
+
+        weaponCameraObject.SetActive(false);
+        originalFOV = cameraObject.fieldOfView;
+        cameraObject.fieldOfView = sniperScopeZoom;
+    }
+
+    void OnUnscoped(){
+        scopeOverlay.SetActive(false);
+        weaponCameraObject.SetActive(true);
+
+        cameraObject.fieldOfView = originalFOV;
     }
 }
