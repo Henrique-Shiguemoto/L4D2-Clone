@@ -12,12 +12,20 @@ public class PlayerMovement : MonoBehaviour{
 
     [SerializeField] private CharacterController playerCharacterController;
 
+    [SerializeField] private PlayerHealthSystem playerHealthSystem;
+
     //This is only used for Y velocity...
     Vector3 velocity;
     
     private bool isGrounded;
 
     void Update(){
+
+        // we don't want to just return; here because the player might die on the air and then it'd be just floating on the air.
+        if(playerHealthSystem.IsPlayerDying()){
+            playerSpeed = 0.0f;
+        }
+
         isGrounded = Physics.CheckBox(groundCheckCollider.bounds.center, 
                                         0.5f * groundCheckCollider.bounds.size, 
                                         Quaternion.identity, 

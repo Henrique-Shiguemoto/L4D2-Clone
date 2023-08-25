@@ -5,8 +5,9 @@ using TMPro;
 
 public class TimerUpdate : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private PlayerHealthSystem playerHealthSystem;
 
     void Update(){
-        timerText.text = Time.timeSinceLevelLoad.ToString("0.##");
+        if(!playerHealthSystem.IsPlayerDying()) timerText.text = Time.timeSinceLevelLoad.ToString("0.##");
     }
 }

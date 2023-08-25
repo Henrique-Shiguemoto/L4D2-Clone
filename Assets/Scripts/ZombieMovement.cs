@@ -13,7 +13,6 @@ public class ZombieMovement : MonoBehaviour {
     [SerializeField] private float minDistanceFromPlayerToAttack = 1.0f;
     [SerializeField] private float radiusToWalk = 10.0f;
     [SerializeField] private Transform playerTransform;
-    [SerializeField] private Transform zombieTransform;
     [SerializeField] private CharacterController zombieCharacterController;
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private BoxCollider groundCheckCollider;
@@ -41,9 +40,20 @@ public class ZombieMovement : MonoBehaviour {
         nextWalkDirectionToFollow = zombieVisualTransform.forward;
         downVelocity = Vector3.zero;
         transform.Rotate(0, Random.Range(0, 359), 0);
+        playerTransform = GameObject.Find("MainPlayer").GetComponent<Transform>();
     }
 
     void Update(){
+        // When player dies, zombie is going to idle again
+        if(zombieHealthSystem.ZombieNeedsToIdleBack()){
+            isIdling = true;
+            isRunning = false;
+            isWalking = false;
+            isAttacking = false;
+
+            return;
+        }
+        
         // no movement is performed when dying (just playing the animation)
         if(zombieHealthSystem.IsZombieDying()){
             movementSpeed = 0.0f;
@@ -59,18 +69,18 @@ public class ZombieMovement : MonoBehaviour {
         }
 
         zombieVisualTransform.localPosition = new Vector3(0.0f, zombieVisualTransform.localPosition.y, 0.0f);
-        Vector3 zombiePlayerDirection = Vector3.Normalize(playerTransform.position - zombieTransform.position);
-        distanceFromPlayer = Vector3.Distance(playerTransform.position, zombieTransform.position);
+        Vector3 zombiePlayerDirection = Vector3.Normalize(playerTransform.position - transform.position);
+        distanceFromPlayer = Vector3.Distance(playerTransform.position, transform.position);
 
         // this condition needs to change (use field of view)
-        if(distanceFromPlayer <= maxDistanceForZombieToFollow && distanceFromPlayer > minDistanceFromPlayerToAttack){
+        if(distanceFromPlayer <= maxDistanceForZombieToFollow && distanceFromPlayer > minDistanceFromPlayerToAttack && !zombieHealthSystem.ZombieNeedsToIdleBack()){
             isRunning = true;
         }
         if(isRunning){
             zombieCharacterController.Move(zombiePlayerDirection * movementSpeed * Time.deltaTime);
 
             // Look towards the player when running at the player
-            zombieTransform.rotation = Quaternion.Lerp(zombieTransform.rotation, Quaternion.LookRotation(zombiePlayerDirection), rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(zombiePlayerDirection), rotationSpeed * Time.deltaTime);
 
             if(distanceFromPlayer <= minDistanceFromPlayerToAttack){
                 isAttacking = true;
@@ -92,9 +102,9 @@ public class ZombieMovement : MonoBehaviour {
                     float xRandomOffset = Random.Range(-radiusToWalk, radiusToWalk);
                     float zRandomOffset = Random.Range(-radiusToWalk, radiusToWalk);
 
-                    nextWalkDirectionToFollow = new Vector3(zombieTransform.position.x + xRandomOffset,
+                    nextWalkDirectionToFollow = new Vector3(transform.position.x + xRandomOffset,
                                                             zombieVisualTransform.position.y,
-                                                            zombieTransform.position.z + zRandomOffset);
+                                                            transform.position.z + zRandomOffset);
                     nextWalkDirectionToFollow = nextWalkDirectionToFollow - zombieVisualTransform.position;
                     nextWalkDirectionToFollow = Vector3.Normalize(nextWalkDirectionToFollow);
                 }
@@ -107,13 +117,13 @@ public class ZombieMovement : MonoBehaviour {
                 }
                 zombieCharacterController.Move(nextWalkDirectionToFollow * walkSpeed * Time.deltaTime);
 
-                zombieTransform.rotation = Quaternion.Lerp(zombieTransform.rotation, Quaternion.LookRotation(nextWalkDirectionToFollow), rotationSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(nextWalkDirectionToFollow), rotationSpeed * Time.deltaTime);
             }else if(isAttacking){
                 if(distanceFromPlayer > minDistanceFromPlayerToAttack){
                     isAttacking = false;
                     isRunning = true;
                 }
-                zombieTransform.LookAt(playerTransform);
+                transform.LookAt(playerTransform);
             }
         }
 

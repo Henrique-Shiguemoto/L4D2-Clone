@@ -13,6 +13,8 @@ public class PlayerHealthSystem : MonoBehaviour{
     [HideInInspector] public int currentHealth;
 
     private float maxHealthBarLocalXScale;
+    private bool isDying = false;
+    private bool isAlreadyDead = false;
 
     void Start(){
         currentHealth = maxHealth;
@@ -21,12 +23,15 @@ public class PlayerHealthSystem : MonoBehaviour{
     }
 
     void Update(){
-        
+        if(isDying) isAlreadyDead = true;
     }
 
     public void Damage(int amount){
         currentHealth -= amount;
-        if(currentHealth < 0) currentHealth = 0;
+        if(currentHealth <= 0) {
+            currentHealth = 0;
+            isDying = true;
+        }
         healthBarText.text = currentHealth.ToString();
         ChangeHealthBarWidthBasedOnHealth(currentHealth);
         ChangeHealthBarColorBasedOnHealth(currentHealth);
@@ -44,5 +49,13 @@ public class PlayerHealthSystem : MonoBehaviour{
 
     private void ChangeHealthBarColorBasedOnHealth(float healthAmount){
         healthBarImage.color = healthBarGradient.Evaluate((float)healthAmount / (float)maxHealth);
+    }
+
+    public bool IsPlayerDying(){
+        return isDying;
+    }
+
+    public bool IsPlayerAlreadyDead(){
+        return isAlreadyDead;
     }
 }

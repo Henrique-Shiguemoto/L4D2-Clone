@@ -35,7 +35,7 @@ Transform:
   m_Children:
   - {fileID: 8551441936327434900}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4118260845760719693
 MonoBehaviour:
@@ -59,7 +59,6 @@ MonoBehaviour:
   minDistanceFromPlayerToAttack: 2.3
   radiusToWalk: 10
   playerTransform: {fileID: 0}
-  zombieTransform: {fileID: 3244792942896023094}
   zombieCharacterController: {fileID: 5817525697740011048}
   groundMask:
     serializedVersion: 2
@@ -151,6 +150,7 @@ MonoBehaviour:
   maxHealth: 50
   currentHealth: 0
   zombieDamage: 2
+  playerHealthSystem: {fileID: 0}
   zombieAnimator: {fileID: 8551441936336686290}
 --- !u!1001 &9029595808406982266
 PrefabInstance:
@@ -208,38 +208,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: Visuals
       objectReference: {fileID: 0}
-    - target: {fileID: 856601670124978856, guid: b14953694d54eea4eb66f453e525024c, type: 3}
-      propertyPath: m_Controller
+    - target: {fileID: 7798507444531267555, guid: b14953694d54eea4eb66f453e525024c, type: 3}
+      propertyPath: zombieHealthSystem
       value: 
-      objectReference: {fileID: 9100000, guid: 092e61311ba97274c9e1a3d6631d7c42, type: 2}
+      objectReference: {fileID: 2976352396455576132}
+    - target: {fileID: 7798507444531267555, guid: b14953694d54eea4eb66f453e525024c, type: 3}
+      propertyPath: zombieMovementScript
+      value: 
+      objectReference: {fileID: 4118260845760719693}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 856601670117699726, guid: b14953694d54eea4eb66f453e525024c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7166764664369965070}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b14953694d54eea4eb66f453e525024c, type: 3}
---- !u!1 &8551441936327343860 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 856601670117699726, guid: b14953694d54eea4eb66f453e525024c, type: 3}
-  m_PrefabInstance: {fileID: 9029595808406982266}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7166764664369965070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8551441936327343860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d79b0644be834b948a43599f59804afd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  zombieAnimator: {fileID: 8551441936336686290}
-  zombieMovementScript: {fileID: 4118260845760719693}
-  zombieHealthSystem: {fileID: 2976352396455576132}
 --- !u!4 &8551441936327434900 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 856601670117272814, guid: b14953694d54eea4eb66f453e525024c, type: 3}

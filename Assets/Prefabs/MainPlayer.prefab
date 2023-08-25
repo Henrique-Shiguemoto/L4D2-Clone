@@ -27,7 +27,7 @@ RectTransform:
   m_GameObject: {fileID: 585141268902516254}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.98, y: 0.92, z: 1}
+  m_LocalScale: {x: 0, y: 0.92, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2105778258662781763}
@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.08522725, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.19584556, g: 0.8666667, b: 0.09803921, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -236,8 +236,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1152263569694896580}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 0.03999996, z: 0.356}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.061, z: 0.509}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -315,7 +315,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseSensitivity: 240
+  distanceAwayFromPlayerAfterDeath: 5
+  distanceUpFromPlayerAfterDeath: 3
   playerTransform: {fileID: 454336291934965793}
+  playerHealthSystem: {fileID: -6780964623561555002}
 --- !u!1 &1216452938920007716
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,8 +698,10 @@ MonoBehaviour:
   dropUpwardForce: 2
   dropForwardForce: 1
   bloodSplatterTime: 1
+  sniperScopeZoom: 15
   bloodSplatterParticleSystem: {fileID: 3777672022137344221, guid: 1af3e301d62836a4b94ef5a94d53a224, type: 3}
   scopeOverlay: {fileID: 1817669377500560868}
+  playerHealthSystem: {fileID: -6780964623561555002}
   ammoText: {fileID: 4396013614799713317}
 --- !u!1 &4301342836544900655
 GameObject:
@@ -1027,6 +1032,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 6971652725261540081}
+  playerHealthSystem: {fileID: -6780964623561555002}
 --- !u!1 &6085464205451670425
 GameObject:
   m_ObjectHideFlags: 0
@@ -1267,6 +1273,7 @@ MonoBehaviour:
     m_Bits: 64
   groundCheckCollider: {fileID: 5837571193718119410}
   playerCharacterController: {fileID: 5866018332857309557}
+  playerHealthSystem: {fileID: -6780964623561555002}
 --- !u!143 &5866018332857309557
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1286,13 +1293,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5000003
+  m_Height: 1.5
+  m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.35, z: 0}
 --- !u!81 &7087455065241378536
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1703,7 +1710,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1858,6 +1865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerAnimator: {fileID: 623267746677447305}
+  playerHealthSystem: {fileID: -6780964623561555002}
 --- !u!4 &623267746670195919 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7447163605590411544, guid: 907fd825e3988774caab4234b943bf44, type: 3}

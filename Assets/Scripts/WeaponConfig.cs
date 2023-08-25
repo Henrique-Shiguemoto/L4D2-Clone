@@ -11,6 +11,6 @@ public class WeaponConfig : MonoBehaviour {
     public float reloadSpeed;
 
     void Start(){
-         currentBulletCount = maxBulletCount;
+        currentBulletCount = maxBulletCount;
     }
 }

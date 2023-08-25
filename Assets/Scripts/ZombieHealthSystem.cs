@@ -6,10 +6,9 @@ public class ZombieHealthSystem : MonoBehaviour {
     public int maxHealth;
     [HideInInspector] public int currentHealth;
     public int zombieDamage;
-    private PlayerHealthSystem playerHealthSystem;
+    [SerializeField] private PlayerHealthSystem playerHealthSystem;
 
     [SerializeField] private Animator zombieAnimator;
-    private const string IS_ATTACKING = "IsAttacking";
 
     private bool isDying = false;
     private bool isAlreadyDead = false;
@@ -19,7 +18,7 @@ public class ZombieHealthSystem : MonoBehaviour {
         playerHealthSystem = GameObject.Find("MainPlayer").GetComponent<PlayerHealthSystem>();
     }
 
-    void Update(){
+    void LateUpdate(){
         if(isDying) isAlreadyDead = true;
     }
 
@@ -41,5 +40,9 @@ public class ZombieHealthSystem : MonoBehaviour {
 
     public bool IsZombieAlreadyDead(){
         return isAlreadyDead;
+    }
+
+    public bool ZombieNeedsToIdleBack(){
+        return playerHealthSystem.IsPlayerAlreadyDead();
     }
 }

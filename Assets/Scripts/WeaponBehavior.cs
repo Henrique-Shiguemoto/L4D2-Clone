@@ -14,6 +14,7 @@ public class WeaponBehavior : MonoBehaviour{
     [SerializeField] private float sniperScopeZoom = 15f;
     [SerializeField] private GameObject bloodSplatterParticleSystem;
     [SerializeField] private GameObject scopeOverlay;
+    [SerializeField] private PlayerHealthSystem playerHealthSystem;
 
     [SerializeField] private TextMeshProUGUI ammoText;
     
@@ -46,6 +47,11 @@ public class WeaponBehavior : MonoBehaviour{
     }
 
     void Update(){
+        if(playerHealthSystem.IsPlayerDying()){
+            if(playerIsHoldingWeapon) DropWeapon(currentWeapon);
+        }
+
+
         //weapon pickup
         Ray ray = cameraObject.ScreenPointToRay(Input.mousePosition);
         bool cameraRaycastIsHittingSomething = Physics.Raycast(ray, out RaycastHit hit);
@@ -54,11 +60,9 @@ public class WeaponBehavior : MonoBehaviour{
             PickupWeapon(hit.transform.gameObject);
         }
 
-        //shooting and reloading logic (no visuals)
         if (playerIsHoldingWeapon){
             WeaponConfig currentWeaponConfig = currentWeapon.GetComponent<WeaponConfig>();
 
-            //shoot (idk how to refactor this)
             if ((currentWeaponConfig.isAutomatic ? Input.GetButton("Fire1") : Input.GetButtonDown("Fire1")) && 
                 !isReloading && !isShooting && currentWeaponConfig.currentBulletCount > 0){
                 isShooting = true;

@@ -12,6 +12,7 @@ public class ZombieAnimations : MonoBehaviour{
     private const string IS_WALKING = "IsWalking";
     private const string IS_ATTACKING = "IsAttacking";
     private const string IS_DYING = "IsDying";
+    private const string ZOMBIE_NEEDS_TO_IDLE = "ZombieNeedsToIdle";
 
     void Update(){
         zombieAnimator.SetBool(IS_RUNNING, zombieMovementScript.IsZombieRunning());
@@ -20,6 +21,7 @@ public class ZombieAnimations : MonoBehaviour{
         if(zombieHealthSystem.IsZombieDying() && !zombieHealthSystem.IsZombieAlreadyDead()){
             zombieAnimator.SetTrigger(IS_DYING);
         }
+        zombieAnimator.SetBool(ZOMBIE_NEEDS_TO_IDLE, zombieHealthSystem.ZombieNeedsToIdleBack());
     }
 
     void TriggerDamageToPlayerAnimationEvent(){
