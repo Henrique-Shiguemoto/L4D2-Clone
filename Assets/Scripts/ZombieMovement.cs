@@ -79,9 +79,6 @@ public class ZombieMovement : MonoBehaviour {
         if(isRunning){
             zombieCharacterController.Move(zombiePlayerDirection * movementSpeed * Time.deltaTime);
 
-            // Look towards the player when running at the player
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(zombiePlayerDirection), rotationSpeed * Time.deltaTime);
-
             if(distanceFromPlayer <= minDistanceFromPlayerToAttack){
                 isAttacking = true;
                 isRunning = false;

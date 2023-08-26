@@ -88,16 +88,17 @@ public class WeaponBehavior : MonoBehaviour{
             if(Input.GetButtonDown("Fire2") && !isReloading && !isShooting && currentWeapon.name.Equals("Sniper")){
                 isScoped = !isScoped;
 
-                if(isScoped){
-                    StartCoroutine(OnScoped());
-                }else{
-                    OnUnscoped();
-                }
+                if(isScoped) StartCoroutine(OnScoped());
+                else OnUnscoped();
             }
 
             //reload
             if ((Input.GetKeyDown(KeyCode.R) && currentWeaponConfig.currentBulletCount < currentWeaponConfig.maxBulletCount && !isShooting && !isReloading) || 
                 (currentWeaponConfig.currentBulletCount == 0 && !isReloading)){
+                if(isScoped){
+                    isScoped = false;
+                    OnUnscoped();
+                }
                 isReloading = true;
                 reloadAudio.Play();
             }

@@ -18,7 +18,7 @@ public class ZombieHealthSystem : MonoBehaviour {
         playerHealthSystem = GameObject.Find("MainPlayer").GetComponent<PlayerHealthSystem>();
     }
 
-    void LateUpdate(){
+    void Update(){
         if(isDying) isAlreadyDead = true;
     }
 
