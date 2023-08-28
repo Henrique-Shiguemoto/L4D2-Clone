@@ -9,6 +9,10 @@ public class SniperAnimations : MonoBehaviour {
 
     private const string IS_SCOPED = "IsScoped";
 
+    void Awake(){
+        sniperBehavior = GameObject.Find("Weapon Holder").GetComponent<WeaponBehavior>();
+    }
+
     void Update(){
         sniperAnimator.SetBool(IS_SCOPED, sniperBehavior.IsSniperScoped());
     }

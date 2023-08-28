@@ -9,19 +9,18 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3244792942896023094}
-  - component: {fileID: 4118260845760719693}
   - component: {fileID: 3567839779100397153}
-  - component: {fileID: 3464229413752573139}
   - component: {fileID: 5817525697740011048}
   - component: {fileID: 2976352396455576132}
   - component: {fileID: -1481604559742902208}
+  - component: {fileID: 1083815237257324117}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Zombie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3244792942896023094
 Transform:
   m_ObjectHideFlags: 0
@@ -38,34 +37,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4118260845760719693
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4160043276642094597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67258a2294e0f19499224c4faecaf5b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementSpeed: 3
-  walkSpeed: 0.35
-  rotationSpeed: 2.5
-  gravity: -15
-  timeToWalkAgain: 4
-  timeToIdleAgain: 6.5
-  maxDistanceForZombieToFollow: 10
-  minDistanceFromPlayerToAttack: 2.3
-  radiusToWalk: 10
-  playerTransform: {fileID: 0}
-  zombieCharacterController: {fileID: 5817525697740011048}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 64
-  groundCheckCollider: {fileID: 3464229413752573139}
-  zombieHealthSystem: {fileID: 2976352396455576132}
 --- !u!136 &3567839779100397153
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -86,30 +57,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.3
-  m_Height: 1.5
+  m_Height: 1.64
   m_Direction: 1
-  m_Center: {x: 0, y: -0.3, z: 0}
---- !u!65 &3464229413752573139
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4160043276642094597}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 1
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.62397575, y: 0.1696527, z: 0.52140045}
-  m_Center: {x: 0.00854373, y: -1.25, z: -0.008031845}
+  m_Center: {x: 0, y: -0.26, z: 0}
 --- !u!143 &5817525697740011048
 CharacterController:
   m_ObjectHideFlags: 0
@@ -129,13 +79,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
+  m_Height: 1.64
+  m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.26, z: 0}
 --- !u!114 &2976352396455576132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 50
   currentHealth: 0
-  zombieDamage: 2
+  zombieDamage: 20
   playerHealthSystem: {fileID: 0}
   zombieAnimator: {fileID: 8551441936336686290}
 --- !u!195 &-1481604559742902208
@@ -162,7 +112,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 4160043276642094597}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -171,10 +121,33 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
+  m_Height: 1.45
+  m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1083815237257324117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4160043276642094597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecad699081826cc4095a5bb84e9f9afa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistanceForZombieToFollow: 10
+  timeToWalkAgain: 5
+  timeToIdleAgain: 5
+  radiusToWalk: 8
+  walkSpeed: 1
+  runningSpeed: 3.5
+  minDistanceToAttack: 3
+  isIdling: 1
+  isRunning: 0
+  isWalking: 0
+  isAttacking: 0
 --- !u!1001 &9029595808406982266
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -193,7 +166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 856601670117272814, guid: b14953694d54eea4eb66f453e525024c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.2010002
+      value: -1.08
       objectReference: {fileID: 0}
     - target: {fileID: 856601670117272814, guid: b14953694d54eea4eb66f453e525024c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -236,9 +209,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2976352396455576132}
     - target: {fileID: 7798507444531267555, guid: b14953694d54eea4eb66f453e525024c, type: 3}
-      propertyPath: zombieMovementScript
+      propertyPath: zombieNavigationScript
       value: 
-      objectReference: {fileID: 4118260845760719693}
+      objectReference: {fileID: 1083815237257324117}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
