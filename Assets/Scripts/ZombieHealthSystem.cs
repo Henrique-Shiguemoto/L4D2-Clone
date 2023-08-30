@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ZombieHealthSystem : MonoBehaviour {
@@ -10,16 +8,29 @@ public class ZombieHealthSystem : MonoBehaviour {
 
     [SerializeField] private Animator zombieAnimator;
 
-    private bool isDying = false;
-    private bool isAlreadyDead = false;
+    private CharacterController zombieController;
+
+    public bool isDying = false;
+    public bool deathEventTriggered = false;
+    public bool zombieJustRespawned = false;
+
+    void Awake(){
+        playerHealthSystem = GameObject.Find("MainPlayer").GetComponent<PlayerHealthSystem>();
+        zombieController = GetComponent<CharacterController>();
+    }
 
     void Start(){
         currentHealth = maxHealth;
-        playerHealthSystem = GameObject.Find("MainPlayer").GetComponent<PlayerHealthSystem>();
     }
 
-    void Update(){
-        if(isDying) isAlreadyDead = true;
+    void LateUpdate(){
+        if(ZombieHasRespawned()){
+            deathEventTriggered = false;
+            currentHealth = maxHealth;
+            EnableControllerOnDeath(true);
+            isDying = false;
+            SetRespawnFlag(false);
+        }
     }
 
     public void DealDamageToPlayer(){
@@ -31,6 +42,7 @@ public class ZombieHealthSystem : MonoBehaviour {
         if(currentHealth <= 0){
             currentHealth = 0;
             isDying = true;
+            EnableControllerOnDeath(false);
         }
     }
 
@@ -38,11 +50,15 @@ public class ZombieHealthSystem : MonoBehaviour {
         return isDying;
     }
 
-    public bool IsZombieAlreadyDead(){
-        return isAlreadyDead;
+    public void EnableControllerOnDeath(bool enable){
+        zombieController.enabled = enable;
     }
 
-    public bool ZombieNeedsToIdleBack(){
-        return playerHealthSystem.IsPlayerAlreadyDead();
+    public void SetRespawnFlag(bool enable){
+        zombieJustRespawned = enable;
+    }
+
+    public bool ZombieHasRespawned(){
+        return zombieJustRespawned;
     }
 }

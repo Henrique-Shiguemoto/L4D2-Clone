@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Weapon
   - Zombie
+  - Spawner
+  - Walls-Ceiling-Floor
+  - Throwable
   layers:
   - Default
   - TransparentFX

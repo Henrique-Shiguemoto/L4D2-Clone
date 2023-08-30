@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -28,7 +27,7 @@ public class WeaponBehavior : MonoBehaviour{
     private bool isReloading;
     private bool isShooting;
     private bool muzzleflashIsLit;
-    private bool isScoped;
+    public bool isScoped;
     private GameObject currentWeapon;
 
     private float currentTimeLeftToShootAgain;
@@ -50,7 +49,6 @@ public class WeaponBehavior : MonoBehaviour{
         if(playerHealthSystem.IsPlayerDying()){
             if(playerIsHoldingWeapon) DropWeapon(currentWeapon);
         }
-
 
         //weapon pickup
         Ray ray = cameraObject.ScreenPointToRay(Input.mousePosition);

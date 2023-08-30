@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour{
     [SerializeField] private float playerSpeed;
+    [SerializeField] private float scopedInSpeed;
+    [SerializeField] private float scopedOutSpeed;
     [SerializeField] private float gravity;
     [SerializeField] private float jumpForce;
 
@@ -19,12 +19,22 @@ public class PlayerMovement : MonoBehaviour{
     
     private bool isGrounded;
 
-    void Update(){
+    private WeaponBehavior playerWeaponBehavior;
 
-        // we don't want to just return; here because the player might die on the air and then it'd be just floating on the air.
-        if(playerHealthSystem.IsPlayerDying()){
-            playerSpeed = 0.0f;
-        }
+    void Awake(){
+        playerWeaponBehavior = GameObject.Find("Weapon Holder").GetComponent<WeaponBehavior>();
+    }
+
+    void Start(){
+        scopedInSpeed = 0.5f * playerSpeed;
+        scopedOutSpeed = playerSpeed;
+    }
+
+    void Update(){
+        if(playerWeaponBehavior.isScoped) playerSpeed = scopedInSpeed;
+        else playerSpeed = scopedOutSpeed;
+
+        if(playerHealthSystem.IsPlayerDying()) playerSpeed = 0.0f;
 
         isGrounded = Physics.CheckBox(groundCheckCollider.bounds.center, 
                                         0.5f * groundCheckCollider.bounds.size, 

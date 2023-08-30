@@ -27,7 +27,7 @@ RectTransform:
   m_GameObject: {fileID: 585141268902516254}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0.92, z: 1}
+  m_LocalScale: {x: 0.98, y: 0.92, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2105778258662781763}
@@ -314,7 +314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36d976f19dca09543b88b5e6fa6d856c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 240
+  mouseSensitivity: 200
   distanceAwayFromPlayerAfterDeath: 5
   distanceUpFromPlayerAfterDeath: 3
   playerTransform: {fileID: 454336291934965793}
@@ -657,6 +657,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4083103657406609023}
   - component: {fileID: 774198299511588044}
+  - component: {fileID: 7054856451115605306}
   m_Layer: 7
   m_Name: Weapon Holder
   m_TagString: Untagged
@@ -703,6 +704,28 @@ MonoBehaviour:
   scopeOverlay: {fileID: 1817669377500560868}
   playerHealthSystem: {fileID: -6780964623561555002}
   ammoText: {fileID: 4396013614799713317}
+  isScoped: 0
+--- !u!114 &7054856451115605306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3405663630527110953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 940b89fcdd5475448836f8525fe83f0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickupRange: 3.5
+  dropUpwardForce: 2
+  dropForwardForce: 1
+  pipeBombExplosionRadius: 5.5
+  pipeBombExplosionDamage: 100
+  throwUpwardForce: 6
+  throwForwardForce: 10
+  timeForPipeBombToExplode: 5
+  throwableHasBeenThrown: 0
 --- !u!1 &4301342836544900655
 GameObject:
   m_ObjectHideFlags: 0
@@ -1266,6 +1289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 5.75
+  scopedInSpeed: 0
   gravity: -15
   jumpForce: 6
   groundMask:
@@ -1710,7 +1734,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 100
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

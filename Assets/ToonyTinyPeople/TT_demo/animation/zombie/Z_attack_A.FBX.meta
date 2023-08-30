@@ -196,7 +196,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.4130135
-        functionName: TriggerDamageToPlayerAnimationEvent
+        functionName: TriggerDamageAnimationEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
