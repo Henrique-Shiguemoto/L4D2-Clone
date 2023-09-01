@@ -27,9 +27,11 @@ public class ZombieHealthSystem : MonoBehaviour {
         if(ZombieHasRespawned()){
             deathEventTriggered = false;
             currentHealth = maxHealth;
-            EnableControllerOnDeath(true);
+            EnableController(true);
+            EnableHeadCollider(true);
             isDying = false;
             SetRespawnFlag(false);
+            EnableHeadVisuals(true);
         }
     }
 
@@ -37,12 +39,17 @@ public class ZombieHealthSystem : MonoBehaviour {
         playerHealthSystem.Damage(zombieDamage);
     }
 
-    public void Damage(int amount){
+    public void Damage(int amount, bool headShot){
         currentHealth -= amount;
         if(currentHealth <= 0){
             currentHealth = 0;
             isDying = true;
-            EnableControllerOnDeath(false);
+            EnableController(false);
+            EnableHeadCollider(false);
+        }
+        if(headShot) {
+            // deactivating head visual game object
+            EnableHeadVisuals(false);
         }
     }
 
@@ -50,9 +57,17 @@ public class ZombieHealthSystem : MonoBehaviour {
         return isDying;
     }
 
-    public void EnableControllerOnDeath(bool enable){
+    public void EnableController(bool enable){
         zombieController.enabled = enable;
     }
+
+    public void EnableHeadCollider(bool enable){
+        transform.GetChild(1).gameObject.SetActive(enable);
+    }
+
+    public void EnableHeadVisuals(bool enable){
+        transform.GetChild(0).GetChild(0).gameObject.SetActive(enable);
+    }    
 
     public void SetRespawnFlag(bool enable){
         zombieJustRespawned = enable;

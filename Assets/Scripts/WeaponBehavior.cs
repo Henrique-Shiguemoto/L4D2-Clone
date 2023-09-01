@@ -7,6 +7,7 @@ public class WeaponBehavior : MonoBehaviour{
     [SerializeField] private GameObject weaponCameraObject;
     [SerializeField] private Transform weaponHolderTransform;
     [SerializeField] private float pickupRange;
+    [SerializeField] private int headShotMultiplier = 2;
     [SerializeField] private float dropUpwardForce;
     [SerializeField] private float dropForwardForce;
     [SerializeField] private float bloodSplatterTime = 1.0f;
@@ -73,9 +74,16 @@ public class WeaponBehavior : MonoBehaviour{
 
                 //check zombie hits
                 if(hit.transform != null){
-                    if(hit.transform.gameObject.tag.Equals("Zombie")){
-                        ZombieHealthSystem zhs = hit.transform.gameObject.GetComponent<ZombieHealthSystem>();
-                        zhs.Damage(currentWeaponConfig.damage);
+                    string objectTag = hit.transform.gameObject.tag;
+                    if(objectTag.Equals("Zombie") || objectTag.Equals("ZombieHead")){
+                        ZombieHealthSystem zhs = null;
+                        if(objectTag.Equals("ZombieHead")){
+                            zhs = hit.transform.parent.gameObject.GetComponent<ZombieHealthSystem>();
+                            zhs.Damage(currentWeaponConfig.damage * headShotMultiplier, true);
+                        }else{
+                            zhs = hit.transform.gameObject.GetComponent<ZombieHealthSystem>();
+                            zhs.Damage(currentWeaponConfig.damage, false);
+                        }
 
                         GameObject bloodSplatter = Instantiate(bloodSplatterParticleSystem, hit.point, Quaternion.LookRotation(hit.normal));
                         Destroy(bloodSplatter, bloodSplatterTime);

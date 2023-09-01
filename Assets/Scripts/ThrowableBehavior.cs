@@ -10,6 +10,7 @@ public class ThrowableBehavior : MonoBehaviour {
     [SerializeField] private float throwUpwardForce;
     [SerializeField] private float throwForwardForce;
     [SerializeField] private float timeForPipeBombToExplode = 5.0f;
+    [SerializeField] private GameObject explosionParticleSystem;
 
     private Camera cameraObject;
     private GameObject currentThrowable;
@@ -99,9 +100,12 @@ public class ThrowableBehavior : MonoBehaviour {
         currentThrowable.transform.GetChild(0).gameObject.SetActive(false);
         throwableHasBeenThrown = false;
         
+        GameObject explosion = Instantiate(explosionParticleSystem, currentThrowable.transform.position, currentThrowable.transform.rotation);
+        Destroy(explosion, 1.0f);
+
         Collider[] collidersInsidePipeBombRadius = Physics.OverlapSphere(currentThrowable.transform.position, pipeBombExplosionRadius);
         foreach(Collider collider in collidersInsidePipeBombRadius){
-            if(collider.gameObject.tag.Equals("Zombie")) collider.gameObject.GetComponent<ZombieHealthSystem>().Damage(pipeBombExplosionDamage);
+            if(collider.gameObject.tag.Equals("Zombie")) collider.gameObject.GetComponent<ZombieHealthSystem>().Damage(pipeBombExplosionDamage, false);
         }
 
         Destroy(currentThrowable, timeForThrowableToGetDestroyed);
