@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour{
         // Checking if the player can jump
         if (isGrounded && velocity.y < 0){
             velocity.y = 0f;
-            if (Input.GetButtonDown("Jump")) velocity.y += jumpForce;
+            if (Input.GetButtonDown("Jump") && !playerHealthSystem.IsPlayerDying()) velocity.y += jumpForce;
         }
         playerCharacterController.Move(velocity * Time.deltaTime);
 

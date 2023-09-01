@@ -7,6 +7,7 @@ public class WeaponConfig : MonoBehaviour {
     public bool isAutomatic;
     public float fireRate;
     public float reloadSpeed;
+    public float inaccuracy;
 
     void Start(){
         currentBulletCount = maxBulletCount;

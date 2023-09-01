@@ -10,9 +10,15 @@ public class PlayerHealthSystem : MonoBehaviour{
     [SerializeField] private RectTransform healthBarRectTransform;
     [HideInInspector] public int currentHealth;
 
+    private LevelManager levelManager;
+
     private float maxHealthBarLocalXScale;
     private bool isDying = false;
     private bool isAlreadyDead = false;
+
+    void Awake(){
+        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+    }
 
     void Start(){
         currentHealth = maxHealth;
@@ -29,6 +35,7 @@ public class PlayerHealthSystem : MonoBehaviour{
         if(currentHealth <= 0) {
             currentHealth = 0;
             isDying = true;
+            levelManager.EndGame();
         }
         healthBarText.text = currentHealth.ToString();
         ChangeHealthBarWidthBasedOnHealth(currentHealth);

@@ -51,10 +51,10 @@ public class WeaponBehavior : MonoBehaviour{
             if(playerIsHoldingWeapon) DropWeapon(currentWeapon);
         }
 
-        //weapon pickup
         Ray ray = cameraObject.ScreenPointToRay(Input.mousePosition);
         bool cameraRaycastIsHittingSomething = Physics.Raycast(ray, out RaycastHit hit);
 
+        //weapon pickup
         if (cameraRaycastIsHittingSomething && hit.transform.gameObject.tag.Equals("Weapon") && Input.GetKeyDown(KeyCode.E) && hit.distance <= pickupRange){
             PickupWeapon(hit.transform.gameObject);
         }
@@ -73,19 +73,28 @@ public class WeaponBehavior : MonoBehaviour{
                 fireAudio.Play();
 
                 //check zombie hits
-                if(hit.transform != null){
-                    string objectTag = hit.transform.gameObject.tag;
+                Ray bulletRay = cameraObject.ScreenPointToRay(Input.mousePosition);
+                bulletRay.direction = bulletRay.direction +  new Vector3(Random.Range(-currentWeaponConfig.inaccuracy, currentWeaponConfig.inaccuracy),
+                                                                         Random.Range(-currentWeaponConfig.inaccuracy, currentWeaponConfig.inaccuracy),
+                                                                         Random.Range(-currentWeaponConfig.inaccuracy, currentWeaponConfig.inaccuracy));
+                Physics.Raycast(bulletRay, out RaycastHit bulletHit);
+
+                // public static void DrawRay(Vector3 start, Vector3 dir, Color color = Color.white, float duration = 0.0f, bool depthTest = true);
+                Debug.DrawRay(bulletRay.origin, bulletRay.direction, Color.red, 1.0f);
+
+                if(bulletHit.transform != null){
+                    string objectTag = bulletHit.transform.gameObject.tag;
                     if(objectTag.Equals("Zombie") || objectTag.Equals("ZombieHead")){
                         ZombieHealthSystem zhs = null;
                         if(objectTag.Equals("ZombieHead")){
-                            zhs = hit.transform.parent.gameObject.GetComponent<ZombieHealthSystem>();
+                            zhs = bulletHit.transform.parent.gameObject.GetComponent<ZombieHealthSystem>();
                             zhs.Damage(currentWeaponConfig.damage * headShotMultiplier, true);
                         }else{
-                            zhs = hit.transform.gameObject.GetComponent<ZombieHealthSystem>();
+                            zhs = bulletHit.transform.gameObject.GetComponent<ZombieHealthSystem>();
                             zhs.Damage(currentWeaponConfig.damage, false);
                         }
 
-                        GameObject bloodSplatter = Instantiate(bloodSplatterParticleSystem, hit.point, Quaternion.LookRotation(hit.normal));
+                        GameObject bloodSplatter = Instantiate(bloodSplatterParticleSystem, bulletHit.point, Quaternion.LookRotation(bulletHit.normal));
                         Destroy(bloodSplatter, bloodSplatterTime);
                     }
                 }

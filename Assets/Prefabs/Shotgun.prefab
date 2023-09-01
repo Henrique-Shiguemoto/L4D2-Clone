@@ -103,6 +103,7 @@ MonoBehaviour:
   isAutomatic: 0
   fireRate: 0.55
   reloadSpeed: 4
+  inaccuracy: 0.25
 --- !u!82 &3486462482065140614
 AudioSource:
   m_ObjectHideFlags: 0

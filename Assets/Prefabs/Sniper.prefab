@@ -295,6 +295,7 @@ MonoBehaviour:
   isAutomatic: 0
   fireRate: 0.4
   reloadSpeed: 2.25
+  inaccuracy: 0.04
 --- !u!1001 &154027054757986596
 PrefabInstance:
   m_ObjectHideFlags: 0
