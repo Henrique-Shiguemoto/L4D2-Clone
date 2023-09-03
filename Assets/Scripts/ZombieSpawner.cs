@@ -6,8 +6,8 @@ public class ZombieSpawner : MonoBehaviour {
 
     private Transform playerCameraTransform;
 
-    private GameObject[] zombiePool = new GameObject[30];
-    private ZombieHealthSystem[] zombieHealthSystems = new ZombieHealthSystem[30];
+    private GameObject[] zombiePool = new GameObject[1];
+    private ZombieHealthSystem[] zombieHealthSystems = new ZombieHealthSystem[1];
 
     private List<GameObject> zombieSpawnerLocations = new List<GameObject>();
     private List<GameObject> currentlyAvailableSpawners = new List<GameObject>();

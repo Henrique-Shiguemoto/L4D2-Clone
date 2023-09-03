@@ -104,8 +104,14 @@ public class ThrowableBehavior : MonoBehaviour {
         Destroy(explosion, 1.0f);
 
         Collider[] collidersInsidePipeBombRadius = Physics.OverlapSphere(currentThrowable.transform.position, pipeBombExplosionRadius);
+        bool alreadyDamagedPlayer = false;
         foreach(Collider collider in collidersInsidePipeBombRadius){
             if(collider.gameObject.tag.Equals("Zombie")) collider.gameObject.GetComponent<ZombieHealthSystem>().Damage(pipeBombExplosionDamage, false);
+            if(collider.gameObject.tag.Equals("Player") && !alreadyDamagedPlayer) {
+                PlayerHealthSystem phs = collider.gameObject.GetComponent<PlayerHealthSystem>();
+                phs.Damage((int)(pipeBombExplosionDamage * (1 - phs.resistanceToThrowableDamage)));
+                alreadyDamagedPlayer = true;
+            }
         }
 
         Destroy(currentThrowable, timeForThrowableToGetDestroyed);

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class ZombieNavigation : MonoBehaviour {
+    [SerializeField] private float zombieHorizontalFOV = 45.0f;
     [SerializeField] private float maxDistanceForZombieToFollow = 10.0f;
     [SerializeField] private float timeToWalkAgain = 5.0f;
     [SerializeField] private float timeToIdleAgain = 5.0f;
@@ -58,8 +59,10 @@ public class ZombieNavigation : MonoBehaviour {
             targetToFollow = mainTargetToFollow;
         }
 
+        Vector3 zombieToTargetDirection = targetToFollow.position - transform.position;
+        float angleBetweenZombieAndTarget = Vector3.Angle(zombieToTargetDirection, transform.forward);
         float distanceToTarget = Vector3.Distance(targetToFollow.position, transform.position);
-        if(distanceToTarget <= maxDistanceForZombieToFollow && !isAttacking && !zombieHealthSystem.IsZombieDying()) ChangeToRunning();
+        if(angleBetweenZombieAndTarget <= zombieHorizontalFOV && distanceToTarget <= maxDistanceForZombieToFollow && !isAttacking && !zombieHealthSystem.IsZombieDying()) ChangeToRunning();
         if(isRunning){
             zombieAgent.SetDestination(targetToFollow.position);
             if(ZombieIsCloseEnoughToTarget(targetToFollow.position, minDistanceToAttack)) ChangeToAttacking();

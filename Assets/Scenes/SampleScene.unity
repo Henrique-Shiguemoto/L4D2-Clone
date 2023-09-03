@@ -7062,18 +7062,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 774198299511588044, guid: 24d9161b87ff659479fbc986b8a77003, type: 3}
-      propertyPath: headShotMultiplier
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3261523620666206412, guid: 24d9161b87ff659479fbc986b8a77003, type: 3}
-      propertyPath: mouseSensitivity
-      value: 175
-      objectReference: {fileID: 0}
-    - target: {fileID: 7054856451115605306, guid: 24d9161b87ff659479fbc986b8a77003, type: 3}
-      propertyPath: explosionParticleSystem
-      value: 
-      objectReference: {fileID: 1828176872806910, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
     - target: {fileID: 7809618530609841351, guid: 24d9161b87ff659479fbc986b8a77003, type: 3}
       propertyPath: m_Name
       value: MainPlayer

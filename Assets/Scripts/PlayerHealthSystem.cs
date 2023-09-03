@@ -9,6 +9,7 @@ public class PlayerHealthSystem : MonoBehaviour{
     [SerializeField] private Image healthBarImage;
     [SerializeField] private RectTransform healthBarRectTransform;
     [HideInInspector] public int currentHealth;
+    [Range(0, 1)] public float resistanceToThrowableDamage = 0.8f;
 
     private LevelManager levelManager;
 

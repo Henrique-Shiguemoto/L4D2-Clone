@@ -172,6 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecad699081826cc4095a5bb84e9f9afa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zombieHorizontalFOV: 60
   maxDistanceForZombieToFollow: 10
   timeToWalkAgain: 5
   timeToIdleAgain: 5
