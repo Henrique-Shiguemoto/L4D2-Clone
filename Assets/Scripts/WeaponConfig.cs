@@ -8,8 +8,15 @@ public class WeaponConfig : MonoBehaviour {
     public float fireRate;
     public float reloadSpeed;
     public float inaccuracy;
+    public AudioSource[] audios;
 
     void Start(){
         currentBulletCount = maxBulletCount;
+    }
+
+    public void PlaySound(int i){
+        if(i >= 0 || i < audios.Length){
+            audios[i].Play();
+        }
     }
 }

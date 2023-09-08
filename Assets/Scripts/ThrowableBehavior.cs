@@ -12,75 +12,52 @@ public class ThrowableBehavior : MonoBehaviour {
     [SerializeField] private float timeForPipeBombToExplode = 5.0f;
     [SerializeField] private GameObject explosionParticleSystem;
 
-    private Camera cameraObject;
-    private GameObject currentThrowable;
-    private bool playerIsHoldingThrowable = false;
-    
     [HideInInspector] public bool throwableHasBeenThrown = false;
 
+    private Camera cameraObject;
+    private Inventory playerInventory = null;
+    
+    //refactor this (grenade config)
     private AudioSource explosionAudio;
     private AudioSource groundImpactAudio;
 
     private float timeForThrowableToGetDestroyed = 1.0f;
 
+    public GameObject thrownThrowable = null;
+
     void Awake(){
         cameraObject = GameObject.Find("Main Camera").GetComponent<Camera>();
-    }
-
-    void Start(){
-        currentThrowable = null;
+        playerInventory = GameObject.Find("MainPlayer").GetComponent<Inventory>();
     }
 
     void Update(){
-        // grenade pickup
-        Ray ray = cameraObject.ScreenPointToRay(Input.mousePosition);
-        bool cameraRaycastIsHittingSomething = Physics.Raycast(ray, out RaycastHit hit);
-
-        if (cameraRaycastIsHittingSomething && hit.transform.gameObject.tag.Equals("Throwable") && Input.GetKeyDown(KeyCode.E) && hit.distance <= pickupRange){
-            PickupThrowable(hit.transform.gameObject);
-        }
-
-        if(playerIsHoldingThrowable){
-            if(Input.GetButtonDown("Fire1")){
-                //throw
-                throwableHasBeenThrown = true;
-                float originalForceUp = dropUpwardForce;
-                float originalForceForward = dropForwardForce;
-                dropUpwardForce = throwUpwardForce;
-                dropForwardForce = throwForwardForce;
-                DropThrowable(currentThrowable);
-                currentThrowable.name = "PipeBombThrown";
-                dropUpwardForce = originalForceUp;
-                dropForwardForce = originalForceForward;
-                StartCoroutine(OnPipeBombExplosion());
-            }
-        }
+        HandleThrowablePickup();
+        HandleThrow();
     }
 
     void PickupThrowable(GameObject newThrowable){
         // Debug.Log("Picked up throwable");
-        if(playerIsHoldingThrowable) DropThrowable(currentThrowable);
+        if(playerInventory.IsHoldingThrowable()) DropThrowable(playerInventory.GetCurrentHeldObject(), false);
+
+        playerInventory.throwable = newThrowable;
 
         newThrowable.GetComponent<Rigidbody>().isKinematic = true;
         newThrowable.GetComponent<BoxCollider>().isTrigger = true;
-        playerIsHoldingThrowable = true;
 
         newThrowable.transform.SetParent(transform);
         newThrowable.transform.localPosition = Vector3.zero;
         newThrowable.transform.localRotation = Quaternion.Euler(Vector3.zero);
         newThrowable.transform.localScale = Vector3.one;
-
-        currentThrowable = newThrowable;
         
-        AudioSource[] audios = currentThrowable.GetComponents<AudioSource>();
+        AudioSource[] audios = playerInventory.throwable.GetComponents<AudioSource>();
         explosionAudio = audios[0];
         groundImpactAudio = audios[1];
     }
 
-    void DropThrowable(GameObject throwableToDrop){
+    void DropThrowable(GameObject throwableToDrop, bool throwing){
         // Debug.Log("Dropped throwable");
         if(throwableToDrop == null) return;
-        if(playerIsHoldingThrowable){
+        if(playerInventory.IsHoldingThrowable()){
             throwableToDrop.transform.SetParent(null);
             throwableToDrop.GetComponent<Rigidbody>().isKinematic = false;
             throwableToDrop.GetComponent<BoxCollider>().isTrigger = false;
@@ -89,21 +66,49 @@ public class ThrowableBehavior : MonoBehaviour {
             throwableToDrop.GetComponent<Rigidbody>().AddForce(dropUpwardForce * cameraObject.transform.up, ForceMode.Impulse);
             throwableToDrop.GetComponent<Rigidbody>().AddForce(dropForwardForce * cameraObject.transform.forward, ForceMode.Impulse);
 
-            playerIsHoldingThrowable = false;
+            if(throwing) thrownThrowable = throwableToDrop;
+            playerInventory.throwable = null;
+            StartCoroutine(OnPipeBombThrown());
+        }
+    }
+
+    void HandleThrowablePickup(){
+        Ray ray = cameraObject.ScreenPointToRay(Input.mousePosition);
+        bool cameraRaycastIsHittingSomething = Physics.Raycast(ray, out RaycastHit hit);
+
+        if (cameraRaycastIsHittingSomething && hit.transform.gameObject.tag.Equals("Throwable") && Input.GetKeyDown(KeyCode.E) && hit.distance <= pickupRange){
+            PickupThrowable(hit.transform.gameObject);
+        }
+    }
+
+    void HandleThrow(){
+        if(playerInventory.IsHoldingThrowable()){
+            if(Input.GetButtonDown("Fire1")){
+                //throw
+                throwableHasBeenThrown = true;
+                float originalForceUp = dropUpwardForce;
+                float originalForceForward = dropForwardForce;
+                dropUpwardForce = throwUpwardForce;
+                dropForwardForce = throwForwardForce;
+                DropThrowable(playerInventory.GetCurrentHeldObject(), true);
+                dropUpwardForce = originalForceUp;
+                dropForwardForce = originalForceForward;
+                StartCoroutine(OnPipeBombExplosion());
+            }
         }
     }
 
     IEnumerator OnPipeBombExplosion(){
         yield return new WaitForSeconds(timeForPipeBombToExplode);
         explosionAudio.Play();
-        currentThrowable.GetComponent<BoxCollider>().enabled = false;
-        currentThrowable.transform.GetChild(0).gameObject.SetActive(false);
+        thrownThrowable.GetComponent<BoxCollider>().enabled = false;
+        thrownThrowable.transform.GetChild(0).gameObject.SetActive(false);
         throwableHasBeenThrown = false;
         
-        GameObject explosion = Instantiate(explosionParticleSystem, currentThrowable.transform.position, currentThrowable.transform.rotation);
+        GameObject explosion = Instantiate(explosionParticleSystem, thrownThrowable.transform.position, thrownThrowable.transform.rotation);
         Destroy(explosion, 1.0f);
 
-        Collider[] collidersInsidePipeBombRadius = Physics.OverlapSphere(currentThrowable.transform.position, pipeBombExplosionRadius);
+        Collider[] collidersInsidePipeBombRadius = Physics.OverlapSphere(thrownThrowable.transform.position, pipeBombExplosionRadius);
         bool alreadyDamagedPlayer = false;
         foreach(Collider collider in collidersInsidePipeBombRadius){
             if(collider.gameObject.tag.Equals("Zombie")) collider.gameObject.GetComponent<ZombieHealthSystem>().Damage(pipeBombExplosionDamage, false);
@@ -114,6 +119,12 @@ public class ThrowableBehavior : MonoBehaviour {
             }
         }
 
-        Destroy(currentThrowable, timeForThrowableToGetDestroyed);
+        Destroy(thrownThrowable, timeForThrowableToGetDestroyed);
+        thrownThrowable = null;
+    }
+
+    IEnumerator OnPipeBombThrown(){
+        yield return new WaitForSeconds(0.5f);
+        playerInventory.ChangeHeldObjectToDefault();
     }
 }

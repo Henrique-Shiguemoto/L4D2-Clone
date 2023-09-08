@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4306242400190624}
   - component: {fileID: 33027836728194906}
   - component: {fileID: 23089900819785866}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bolt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 4594675243249436}
   - component: {fileID: 33179380300721940}
   - component: {fileID: 23269985241092066}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 4855566107710416}
   - component: {fileID: 33850499219332204}
   - component: {fileID: 23421164134073748}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Magazin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +262,8 @@ GameObject:
   - component: {fileID: 23745275597904220}
   - component: {fileID: 6813955211496599319}
   - component: {fileID: 7970137122800936511}
-  m_Layer: 0
+  - component: {fileID: 9144192101567915465}
+  m_Layer: 7
   m_Name: M107
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -287,7 +288,7 @@ Transform:
   - {fileID: 8766741821924487302}
   - {fileID: 5213471619489198388}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &33265667909663144
 MeshFilter:
@@ -373,6 +374,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sniperConfig: {fileID: 0}
+--- !u!114 &9144192101567915465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829597508155286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 578d2975b1c1a2c46a07ddaf2de22609, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  muzzleFlash: {fileID: 1411415421483950128}
 --- !u!1 &1411415421483950128
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,7 +399,7 @@ GameObject:
   - component: {fileID: 8600249903037385155}
   - component: {fileID: 376470784400596461}
   - component: {fileID: 3041040515682404648}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MuzzleflashPlane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -490,6 +504,14 @@ PrefabInstance:
     - target: {fileID: 1378609178869200, guid: 49535f27af2648646a94c1f9918737d6, type: 3}
       propertyPath: m_Name
       value: TAN_LR_Scope_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1378609178869200, guid: 49535f27af2648646a94c1f9918737d6, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1796153942692692, guid: 49535f27af2648646a94c1f9918737d6, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4523601712017382, guid: 49535f27af2648646a94c1f9918737d6, type: 3}
       propertyPath: m_RootOrder

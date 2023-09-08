@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 23904141403194016}
   - component: {fileID: 2786141073736324036}
   - component: {fileID: 8221465725192251581}
-  m_Layer: 0
+  - component: {fileID: 3131218890888425450}
+  m_Layer: 7
   m_Name: Bennelli_M4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,6 +123,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shotgunConfig: {fileID: 0}
+--- !u!114 &3131218890888425450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236257789494122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 578d2975b1c1a2c46a07ddaf2de22609, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  muzzleFlash: {fileID: 8725106026976466753}
 --- !u!1 &1326079549577358
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,7 +147,7 @@ GameObject:
   - component: {fileID: 4819501579468060}
   - component: {fileID: 33459726747464850}
   - component: {fileID: 23948481808093384}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Pump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,7 +230,7 @@ GameObject:
   - component: {fileID: 4996469487512398}
   - component: {fileID: 33227245936506880}
   - component: {fileID: 23722440624247890}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -300,7 +314,7 @@ GameObject:
   - component: {fileID: 4158141113680318567}
   - component: {fileID: 6286401394265029871}
   - component: {fileID: 8682370409861108066}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MuzzleflashPlane
   m_TagString: Untagged
   m_Icon: {fileID: 0}

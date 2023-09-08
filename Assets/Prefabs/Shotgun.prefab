@@ -104,6 +104,9 @@ MonoBehaviour:
   fireRate: 0.55
   reloadSpeed: 4
   inaccuracy: 0.25
+  audios:
+  - {fileID: 3486462482065140614}
+  - {fileID: 5247574497088694669}
 --- !u!82 &3486462482065140614
 AudioSource:
   m_ObjectHideFlags: 0
@@ -308,18 +311,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShotgunVisual
       objectReference: {fileID: 0}
-    - target: {fileID: 1236257789494122, guid: 8b0b86b42def11849a8eba21f4a6a684, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1326079549577358, guid: 8b0b86b42def11849a8eba21f4a6a684, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1584542541181842, guid: 8b0b86b42def11849a8eba21f4a6a684, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 4243371153570508, guid: 8b0b86b42def11849a8eba21f4a6a684, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -368,10 +359,6 @@ PrefabInstance:
       propertyPath: shotgunConfig
       value: 
       objectReference: {fileID: 7205026662238879254}
-    - target: {fileID: 8725106026976466753, guid: 8b0b86b42def11849a8eba21f4a6a684, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

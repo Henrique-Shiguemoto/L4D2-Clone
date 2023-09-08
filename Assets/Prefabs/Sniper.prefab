@@ -35,7 +35,7 @@ Transform:
   m_Children:
   - {fileID: 156871573675127554}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1765001777238903510
 BoxCollider:
@@ -296,6 +296,9 @@ MonoBehaviour:
   fireRate: 0.4
   reloadSpeed: 2.25
   inaccuracy: 0.04
+  audios:
+  - {fileID: 4863816384588779565}
+  - {fileID: 7198830695531589517}
 --- !u!1001 &154027054757986596
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -304,25 +307,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5479620332386701113}
     m_Modifications:
-    - target: {fileID: 1633916680593816, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1673615449923876, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1720912225889422, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 1829597508155286, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
       propertyPath: m_Name
       value: SniperVisual
-      objectReference: {fileID: 0}
-    - target: {fileID: 1829597508155286, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
-      propertyPath: m_Layer
-      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4053999043310118, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
       propertyPath: m_RootOrder
@@ -368,26 +355,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1411415421483950128, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 7970137122800936511, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
       propertyPath: sniperConfig
       value: 
       objectReference: {fileID: 8975629565043605616}
-    - target: {fileID: 7970137122800936511, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
-      propertyPath: sniperAnimator
-      value: 
-      objectReference: {fileID: 6679751821093465651}
-    - target: {fileID: 8772254348640723632, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 8772953368656055348, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -396,10 +367,5 @@ PrefabInstance:
 --- !u!4 &156871573675127554 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4053999043310118, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
-  m_PrefabInstance: {fileID: 154027054757986596}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &6679751821093465651 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 6813955211496599319, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
   m_PrefabInstance: {fileID: 154027054757986596}
   m_PrefabAsset: {fileID: 0}

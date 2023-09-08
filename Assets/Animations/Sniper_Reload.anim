@@ -586,7 +586,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 1.1666666
-    functionName: TriggerRefreshCurrentWeaponAmmo
+    functionName: TriggerRefreshCurrentWeaponAmmo_Sniper
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

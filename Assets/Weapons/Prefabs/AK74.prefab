@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4628190596468080}
   - component: {fileID: 33974513469355770}
   - component: {fileID: 23269604117648666}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 4871155855958596}
   - component: {fileID: 33621225348611210}
   - component: {fileID: 23032416416855840}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bolt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +179,8 @@ GameObject:
   - component: {fileID: 23860282398207496}
   - component: {fileID: 6984038450086433347}
   - component: {fileID: 3798076813376135546}
-  m_Layer: 0
+  - component: {fileID: 8375298818493558419}
+  m_Layer: 7
   m_Name: AK74
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -289,6 +290,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rifleConfig: {fileID: 0}
+--- !u!114 &8375298818493558419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487774384131766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 578d2975b1c1a2c46a07ddaf2de22609, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  muzzleFlash: {fileID: 419694346591637100}
 --- !u!1 &1927369336514790
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,7 +314,7 @@ GameObject:
   - component: {fileID: 4977263084664720}
   - component: {fileID: 33803936345550136}
   - component: {fileID: 23124041486323528}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Mag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -384,7 +398,7 @@ GameObject:
   - component: {fileID: 5955590273176621850}
   - component: {fileID: 7900238906281207760}
   - component: {fileID: 8634241399013646125}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MuzzleflashPlane
   m_TagString: Untagged
   m_Icon: {fileID: 0}

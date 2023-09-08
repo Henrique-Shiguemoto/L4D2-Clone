@@ -54,7 +54,7 @@ public class ZombieNavigation : MonoBehaviour {
             ChangeToIdle();
         }
         if(throwableBehaviorScript.throwableHasBeenThrown){
-            targetToFollow = GameObject.Find("PipeBombThrown").transform;
+            targetToFollow = throwableBehaviorScript.thrownThrowable.transform;
         }else{
             targetToFollow = mainTargetToFollow;
         }
