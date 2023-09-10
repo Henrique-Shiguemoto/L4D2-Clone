@@ -17,6 +17,13 @@ public class Inventory : MonoBehaviour {
         if(Input.GetKeyDown(KeyCode.Alpha3) && throwable)       currentHeldItemIndex = 2;
         if(Input.GetKeyDown(KeyCode.Alpha4) && healthpack)      currentHeldItemIndex = 3;
         if(Input.GetKeyDown(KeyCode.Alpha5) && pills)           currentHeldItemIndex = 4;
+        // if(Input.mouseScrollDelta.y > 0) {
+        //     currentHeldItemIndex--;
+        //     if(currentHeldItemIndex < 0) currentHeldItemIndex = 4;
+        // }else if(Input.mouseScrollDelta.y < 0) {
+        //     currentHeldItemIndex++;
+        //     if(currentHeldItemIndex > 4) currentHeldItemIndex = 0;
+        // }
     }
 
     public bool HasPrimaryWeapon()          { return primaryWeapon != null; }
