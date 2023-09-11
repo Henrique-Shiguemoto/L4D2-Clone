@@ -38,15 +38,13 @@ public class PlayerHealthSystem : MonoBehaviour{
             isDying = true;
             levelManager.EndGame();
         }
-        healthBarText.text = currentHealth.ToString();
-        ChangeHealthBarWidthBasedOnHealth(currentHealth);
-        ChangeHealthBarColorBasedOnHealth(currentHealth);
+        UpdateHealthBar();
     }
 
     public void Heal(int amount){
         currentHealth += amount;
         if(currentHealth > maxHealth) currentHealth = maxHealth;
-        healthBarText.text = currentHealth.ToString();
+        UpdateHealthBar();
     }
 
     private void ChangeHealthBarWidthBasedOnHealth(float healthAmount){
@@ -63,5 +61,11 @@ public class PlayerHealthSystem : MonoBehaviour{
 
     public bool IsPlayerAlreadyDead(){
         return isAlreadyDead;
+    }
+
+    private void UpdateHealthBar(){
+        healthBarText.text = currentHealth.ToString();
+        ChangeHealthBarWidthBasedOnHealth(currentHealth);
+        ChangeHealthBarColorBasedOnHealth(currentHealth);
     }
 }

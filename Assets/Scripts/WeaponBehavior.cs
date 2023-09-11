@@ -6,7 +6,6 @@ public class WeaponBehavior : MonoBehaviour{
     [SerializeField] private Camera cameraObject;
     [SerializeField] private GameObject weaponCameraObject; // refactor sniper scope
     [SerializeField] private GameObject initialWeapon;
-    [SerializeField] private Transform weaponHolderTransform;
     [SerializeField] private float pickupRange;
     [SerializeField] private int headShotMultiplier = 2;
     [SerializeField] private float dropUpwardForce;
@@ -78,7 +77,7 @@ public class WeaponBehavior : MonoBehaviour{
         {
             newWeapon.GetComponent<Rigidbody>().isKinematic = true;
             newWeapon.GetComponent<BoxCollider>().isTrigger = true;
-            newWeapon.transform.SetParent(weaponHolderTransform);
+            newWeapon.transform.SetParent(transform);
             newWeapon.transform.localPosition = Vector3.zero;
             newWeapon.transform.localRotation = Quaternion.Euler(Vector3.zero);
             newWeapon.transform.localScale = Vector3.one;

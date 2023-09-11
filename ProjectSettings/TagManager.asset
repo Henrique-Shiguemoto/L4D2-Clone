@@ -10,6 +10,8 @@ TagManager:
   - Walls-Ceiling-Floor
   - Throwable
   - ZombieHead
+  - Healthpack
+  - Pills
   layers:
   - Default
   - TransparentFX
