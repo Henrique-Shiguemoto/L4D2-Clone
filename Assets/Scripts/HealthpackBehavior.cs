@@ -73,6 +73,7 @@ public class HealthpackBehavior : MonoBehaviour {
         }else{
             timeLeftForHeal = timeForHeal;
             isHealing = false;
+            healingUI.SetActive(false);
         }
     }
 

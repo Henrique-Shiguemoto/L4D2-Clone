@@ -132,7 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 50
   currentHealth: 0
-  zombieDamage: 20
+  zombieDamage: 2
   playerHealthSystem: {fileID: 0}
   zombieAnimator: {fileID: 8551441936336686290}
   isDying: 0

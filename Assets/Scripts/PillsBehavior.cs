@@ -5,10 +5,12 @@ public class PillsBehavior : MonoBehaviour {
     [SerializeField] private float pickupRange;
     [SerializeField] private float dropUpwardForce;
     [SerializeField] private float dropForwardForce;
-    [SerializeField] private int healAmount = 50;
+    public int healAmount = 50;
     
     private Inventory playerInventory;
     private PlayerHealthSystem playerHealthSystem;
+
+    public bool isTakingPills = false;
 
     void Awake(){
         playerInventory = GameObject.Find("MainPlayer").GetComponent<Inventory>();
@@ -59,14 +61,7 @@ public class PillsBehavior : MonoBehaviour {
 
     void HandleHeal(){
         if(playerHealthSystem.currentHealth < playerHealthSystem.maxHealth - 1 && Input.GetButtonDown("Fire1")){
-            Heal();
+            isTakingPills = true;
         }
-    }
-
-    void Heal(){
-        playerHealthSystem.Heal(healAmount);
-        Destroy(playerInventory.pills);
-        playerInventory.pills = null;
-        playerInventory.ChangeHeldObjectToDefault();
     }
 }

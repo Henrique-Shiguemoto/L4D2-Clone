@@ -8,7 +8,7 @@ public class PlayerHealthSystem : MonoBehaviour{
     [SerializeField] private Gradient healthBarGradient;
     [SerializeField] private Image healthBarImage;
     [SerializeField] private RectTransform healthBarRectTransform;
-    [HideInInspector] public int currentHealth;
+    [SerializeField] public int currentHealth;
     [Range(0, 1)] public float resistanceToThrowableDamage = 0.8f;
 
     private LevelManager levelManager;
