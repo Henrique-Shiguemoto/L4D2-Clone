@@ -12,11 +12,8 @@ public class Inventory : MonoBehaviour {
 
     void Update(){
         HideItemsExceptForHeldItem();
-        if(Input.GetKeyDown(KeyCode.Alpha1) && primaryWeapon)   currentHeldItemIndex = 0;
-        if(Input.GetKeyDown(KeyCode.Alpha2) && secondaryWeapon) currentHeldItemIndex = 1;
-        if(Input.GetKeyDown(KeyCode.Alpha3) && throwable)       currentHeldItemIndex = 2;
-        if(Input.GetKeyDown(KeyCode.Alpha4) && healthpack)      currentHeldItemIndex = 3;
-        if(Input.GetKeyDown(KeyCode.Alpha5) && pills)           currentHeldItemIndex = 4;
+        HandleItemChange();
+
         // if(Input.mouseScrollDelta.y > 0) {
         //     currentHeldItemIndex--;
         //     if(currentHeldItemIndex < 0) currentHeldItemIndex = 4;
@@ -31,6 +28,7 @@ public class Inventory : MonoBehaviour {
     public bool HasThrowable()              { return throwable != null; }
     public bool HasHealthpack()             { return healthpack != null; }
     public bool HasPills()                  { return pills != null; }
+    public bool HasWeapon()                 { return HasPrimaryWeapon() || HasSecondaryWeapon(); }
     public bool IsHoldingPrimaryWeapon()    { return currentHeldItemIndex == 0 && primaryWeapon; }
     public bool IsHoldingSecondaryWeapon()  { return currentHeldItemIndex == 1 && secondaryWeapon; }
     public bool IsHoldingThrowable()        { return currentHeldItemIndex == 2 && throwable; }
@@ -100,4 +98,23 @@ public class Inventory : MonoBehaviour {
             currentHeldItemIndex = 4;
         }
     }
+
+    void HandleItemChange(){
+        if(Input.GetKeyDown(KeyCode.Alpha1) && primaryWeapon){
+            currentHeldItemIndex = 0;
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha2) && secondaryWeapon){
+            currentHeldItemIndex = 1;
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha3) && throwable){
+            currentHeldItemIndex = 2;
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha4) && healthpack){
+            currentHeldItemIndex = 3;
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha5) && pills){
+            currentHeldItemIndex = 4;
+        }
+    }
 }
+

@@ -102,8 +102,7 @@ public class WeaponBehavior : MonoBehaviour{
     }
 
     void DropWeapon(GameObject weaponToDrop){
-        if (weaponToDrop == null) return;
-        if (playerInventory.IsHoldingWeapon()){
+        if (playerInventory.HasWeapon()){
             weaponToDrop.transform.SetParent(null);
             GameObject newWeaponVisual = weaponToDrop.transform.GetChild(0).gameObject;
             newWeaponVisual.GetComponent<Animator>().enabled = false;

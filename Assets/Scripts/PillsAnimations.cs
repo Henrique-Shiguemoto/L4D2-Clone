@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PillsAnimations : MonoBehaviour {
     private const string IS_TAKING_PILLS = "IsTakingPills";
+    private const string IS_CHANGING = "IsChanging";
     private Animator pillsAnimator;
     private PillsBehavior pillsBehavior;
     private PlayerHealthSystem playerHealthSystem;

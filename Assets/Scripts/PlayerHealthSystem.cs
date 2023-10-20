@@ -19,6 +19,7 @@ public class PlayerHealthSystem : MonoBehaviour{
 
     void Awake(){
         levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        if(!levelManager) Debug.LogError("A Level Manager game object is needed in the hierarchy!");
     }
 
     void Start(){

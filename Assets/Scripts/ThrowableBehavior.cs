@@ -13,6 +13,7 @@ public class ThrowableBehavior : MonoBehaviour {
     [SerializeField] private GameObject explosionParticleSystem;
 
     [HideInInspector] public bool throwableHasBeenThrown = false;
+    [HideInInspector] public bool isThrowing = false;
 
     private Camera cameraObject;
     private Inventory playerInventory = null;
@@ -36,8 +37,12 @@ public class ThrowableBehavior : MonoBehaviour {
     }
 
     void PickupThrowable(GameObject newThrowable){
-        // Debug.Log("Picked up throwable");
-        if(playerInventory.IsHoldingThrowable()) DropThrowable(playerInventory.GetCurrentHeldObject(), false);
+        if(playerInventory.HasThrowable()){
+            playerInventory.throwable.SetActive(true);
+            DropThrowable(playerInventory.throwable, false);
+        }
+
+        newThrowable.transform.GetChild(0).gameObject.GetComponent<Animator>().enabled = true;
 
         playerInventory.throwable = newThrowable;
 
@@ -55,20 +60,23 @@ public class ThrowableBehavior : MonoBehaviour {
     }
 
     void DropThrowable(GameObject throwableToDrop, bool throwing){
-        // Debug.Log("Dropped throwable");
-        if(throwableToDrop == null) return;
-        if(playerInventory.IsHoldingThrowable()){
+        if(playerInventory.HasThrowable()){
             throwableToDrop.transform.SetParent(null);
             throwableToDrop.GetComponent<Rigidbody>().isKinematic = false;
             throwableToDrop.GetComponent<BoxCollider>().isTrigger = false;
+
+            GameObject visuals = throwableToDrop.transform.GetChild(0).gameObject;
+            visuals.GetComponent<Animator>().enabled = false;
 
             //Add forces to weapon when dropped (up and forward)
             throwableToDrop.GetComponent<Rigidbody>().AddForce(dropUpwardForce * cameraObject.transform.up, ForceMode.Impulse);
             throwableToDrop.GetComponent<Rigidbody>().AddForce(dropForwardForce * cameraObject.transform.forward, ForceMode.Impulse);
 
-            if(throwing) thrownThrowable = throwableToDrop;
+            if(throwing){
+                thrownThrowable = throwableToDrop;
+                StartCoroutine(OnPipeBombThrown());
+            }
             playerInventory.throwable = null;
-            StartCoroutine(OnPipeBombThrown());
         }
     }
 
@@ -82,20 +90,7 @@ public class ThrowableBehavior : MonoBehaviour {
     }
 
     void HandleThrow(){
-        if(playerInventory.IsHoldingThrowable()){
-            if(Input.GetButtonDown("Fire1")){
-                //throw
-                throwableHasBeenThrown = true;
-                float originalForceUp = dropUpwardForce;
-                float originalForceForward = dropForwardForce;
-                dropUpwardForce = throwUpwardForce;
-                dropForwardForce = throwForwardForce;
-                DropThrowable(playerInventory.GetCurrentHeldObject(), true);
-                dropUpwardForce = originalForceUp;
-                dropForwardForce = originalForceForward;
-                StartCoroutine(OnPipeBombExplosion());
-            }
-        }
+        if(playerInventory.IsHoldingThrowable() && Input.GetButtonDown("Fire1")) isThrowing = true;
     }
 
     IEnumerator OnPipeBombExplosion(){
@@ -103,7 +98,6 @@ public class ThrowableBehavior : MonoBehaviour {
         explosionAudio.Play();
         thrownThrowable.GetComponent<BoxCollider>().enabled = false;
         thrownThrowable.transform.GetChild(0).gameObject.SetActive(false);
-        throwableHasBeenThrown = false;
         
         GameObject explosion = Instantiate(explosionParticleSystem, thrownThrowable.transform.position, thrownThrowable.transform.rotation);
         Destroy(explosion, 1.0f);
@@ -121,10 +115,24 @@ public class ThrowableBehavior : MonoBehaviour {
 
         Destroy(thrownThrowable, timeForThrowableToGetDestroyed);
         thrownThrowable = null;
+
+        throwableHasBeenThrown = false;
     }
 
     IEnumerator OnPipeBombThrown(){
         yield return new WaitForSeconds(0.5f);
+        throwableHasBeenThrown = true;
+    }
+
+    public void Throw(){
+        float originalForceUp = dropUpwardForce;
+        float originalForceForward = dropForwardForce;
+        dropUpwardForce = throwUpwardForce;
+        dropForwardForce = throwForwardForce;
+        DropThrowable(playerInventory.GetCurrentHeldObject(), true);
+        dropUpwardForce = originalForceUp;
+        dropForwardForce = originalForceForward;
         playerInventory.ChangeHeldObjectToDefault();
+        StartCoroutine(OnPipeBombExplosion());
     }
 }

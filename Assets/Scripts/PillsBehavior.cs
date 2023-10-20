@@ -10,7 +10,7 @@ public class PillsBehavior : MonoBehaviour {
     private Inventory playerInventory;
     private PlayerHealthSystem playerHealthSystem;
 
-    public bool isTakingPills = false;
+    [HideInInspector] public bool isTakingPills = false;
 
     void Awake(){
         playerInventory = GameObject.Find("MainPlayer").GetComponent<Inventory>();
@@ -30,7 +30,12 @@ public class PillsBehavior : MonoBehaviour {
     }
 
     void PickupPills(GameObject newPills){
-        if(playerInventory.HasPills()) DropPills(playerInventory.pills);
+        if(playerInventory.HasPills()) {
+            playerInventory.pills.SetActive(true);
+            DropPills(playerInventory.pills);
+        }
+
+        newPills.transform.GetChild(0).gameObject.GetComponent<Animator>().enabled = true;
 
         // Physics stuff
         {

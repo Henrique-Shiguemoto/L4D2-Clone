@@ -37,7 +37,12 @@ public class HealthpackBehavior : MonoBehaviour {
     }
 
     void PickupHealthpack(GameObject newHealthpack){
-        if(playerInventory.HasHealthpack()) DropHealthpack(playerInventory.healthpack);
+        if(playerInventory.HasHealthpack()) {
+            playerInventory.healthpack.SetActive(true);
+            DropHealthpack(playerInventory.healthpack);
+        }
+
+        newHealthpack.transform.GetChild(0).gameObject.GetComponent<Animator>().enabled = true;
 
         // Physics stuff
         {
@@ -59,6 +64,9 @@ public class HealthpackBehavior : MonoBehaviour {
             healthpackToBeDropped.transform.SetParent(null);
             healthpackToBeDropped.GetComponent<Rigidbody>().isKinematic = false;
             healthpackToBeDropped.GetComponent<BoxCollider>().isTrigger = false;
+
+            GameObject visuals = healthpackToBeDropped.transform.GetChild(0).gameObject;
+            visuals.GetComponent<Animator>().enabled = false;
 
             //Add forces to weapon when dropped (up and forward)
             healthpackToBeDropped.GetComponent<Rigidbody>().AddForce(dropUpwardForce * cameraObject.transform.up, ForceMode.Impulse);

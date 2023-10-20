@@ -62,7 +62,7 @@ public class ZombieNavigation : MonoBehaviour {
         Vector3 zombieToTargetDirection = targetToFollow.position - transform.position;
         float angleBetweenZombieAndTarget = Vector3.Angle(zombieToTargetDirection, transform.forward);
         float distanceToTarget = Vector3.Distance(targetToFollow.position, transform.position);
-        if(angleBetweenZombieAndTarget <= zombieHorizontalFOV && distanceToTarget <= maxDistanceForZombieToFollow && !isAttacking && !zombieHealthSystem.IsZombieDying()) ChangeToRunning();
+        if(((angleBetweenZombieAndTarget <= zombieHorizontalFOV || throwableBehaviorScript.throwableHasBeenThrown) && distanceToTarget <= maxDistanceForZombieToFollow) && !isAttacking && !zombieHealthSystem.IsZombieDying()) ChangeToRunning();
         if(isRunning){
             zombieAgent.SetDestination(targetToFollow.position);
             if(ZombieIsCloseEnoughToTarget(targetToFollow.position, minDistanceToAttack)) ChangeToAttacking();
@@ -89,7 +89,9 @@ public class ZombieNavigation : MonoBehaviour {
                 if(!ZombieIsCloseEnoughToTarget(targetToFollow.position, minDistanceToAttack)) ChangeToRunning();
                 StopMovingAgent();
                 if(!targetToFollow.gameObject.name.Equals("PipeBombThrown")){
+                    Vector3 originalRotation = transform.rotation.eulerAngles;
                     transform.LookAt(targetToFollow);
+                    transform.rotation = Quaternion.Euler(new Vector3(originalRotation.x, transform.rotation.y, originalRotation.z));
                 }
             }
         }

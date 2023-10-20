@@ -11,6 +11,11 @@ public class ThrowableAnimations : MonoBehaviour {
     }
 
     void Update() {
-        throwableAnimator.SetBool(IS_THROWING, throwableBehavior.throwableHasBeenThrown);
+        throwableAnimator.SetBool(IS_THROWING, throwableBehavior.isThrowing);
+    }
+
+    void TriggerThrowEvent(){
+        throwableBehavior.Throw();
+        throwableBehavior.isThrowing = false;
     }
 }
